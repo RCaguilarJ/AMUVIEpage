@@ -158,6 +158,23 @@ if (contactPageForm) {
     });
 }
 
+const standalonePasswordInput = document.querySelector('[data-password-input]');
+const standalonePasswordToggle = document.querySelector('[data-password-toggle]');
+
+if (standalonePasswordInput && standalonePasswordToggle) {
+    standalonePasswordToggle.addEventListener('click', () => {
+        const willShowPassword = standalonePasswordInput.type === 'password';
+        standalonePasswordInput.type = willShowPassword ? 'text' : 'password';
+        standalonePasswordToggle.setAttribute('aria-pressed', String(willShowPassword));
+        standalonePasswordToggle.setAttribute(
+            'aria-label',
+            willShowPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+        );
+        standalonePasswordToggle.querySelector('i')?.classList.toggle('fa-eye', !willShowPassword);
+        standalonePasswordToggle.querySelector('i')?.classList.toggle('fa-eye-slash', willShowPassword);
+    });
+}
+
 const accessPageForm = document.querySelector('[data-access-form]');
 
 if (accessPageForm) {
