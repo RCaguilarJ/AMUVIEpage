@@ -9,7 +9,7 @@
     <article class="training-page">
         <img
             class="training-page__flyer"
-            src="/AmuvePage/assets/images/curso-seguridad-albercas-2026.png"
+            src="<?= htmlspecialchars(site_url('assets/images/curso-seguridad-albercas-2026.png'), ENT_QUOTES, 'UTF-8') ?>"
             alt="Curso Seguridad Eléctrica en Albercas 2026, del 27 al 30 de abril, modalidad en línea"
         >
     </article>

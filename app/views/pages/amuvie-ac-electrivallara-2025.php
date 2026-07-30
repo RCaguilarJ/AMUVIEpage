@@ -6,7 +6,7 @@ $postTitle = 'AMUVIE AC – ELECTRIVALLARA 2025';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-electrivallara-2025.jpg',
+        'src' => site_url('a'),
         'alt' => 'Invitación de AMUVIE al Congreso Eléctrico Nacional ElectriVallarta 2025',
     ],
 ];

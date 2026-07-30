@@ -7,7 +7,7 @@
     </section>
 
     <article class="inner-page about-page">
-        <img class="about-page__image" src="/AmuvePage/assets/images/quienes-grupo.jpg" alt="Integrantes de AMUVIE A.C.">
+        <img class="about-page__image" src="<?= htmlspecialchars(site_url('assets/images/quienes-grupo.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Integrantes de AMUVIE A.C.">
         <h2>Asociación Mexicana de Unidades de Verificación de Instalaciones Eléctricas</h2>
         <p>
             La AMUVIE, A.C., nace el 27 de Junio de 2014, gracias a un grupo de Unidades de Verificaciones de

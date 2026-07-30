@@ -18,7 +18,7 @@
 
         <section class="join-options" aria-label="Tipos de afiliación">
             <article class="join-card">
-                <img src="/AmuvePage/assets/images/afiliate-electrica.jpg" alt="Verificación de instalaciones eléctricas">
+                <img src="<?= htmlspecialchars(site_url('assets/images/afiliate-electrica.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Verificación de instalaciones eléctricas">
                 <h3>Unidad de verificación de instalaciones eléctricas</h3>
                 <h4>Requisitos de Afiliación:</h4>
                 <ul>
@@ -33,7 +33,7 @@
             </article>
 
             <article class="join-card">
-                <img src="/AmuvePage/assets/images/afiliate-higiene.jpg" alt="Verificación de seguridad e higiene">
+                <img src="<?= htmlspecialchars(site_url('assets/images/afiliate-higiene.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Verificación de seguridad e higiene">
                 <h3>Unidad de verificación de seguridad e higiene</h3>
                 <h4>Requisitos de Afiliación:</h4>
                 <ul>

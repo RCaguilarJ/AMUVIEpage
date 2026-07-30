@@ -10,7 +10,7 @@
         <div class="contact-card">
             <img
                 class="contact-card__banner"
-                src="/AmuvePage/assets/images/banner-contacto.jpg"
+                src="<?= htmlspecialchars(site_url('assets/images/banner-contacto.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                 alt="Contáctenos, estamos para servirle"
             >
 

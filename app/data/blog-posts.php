@@ -11,7 +11,7 @@ return array (
     'thumbnail' => 'https://www.amuvie.mx/wp-content/uploads/2026/05/1-1.png',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/crecimiento-de-asociados-del-vi-consejo-directivo-2024-2026/',
+    'local_url' => site_url('crecimiento-de-asociados-del-vi-consejo-directivo-2024-2026/'),
     'source_url' => 'https://www.amuvie.mx/crecimiento-de-asociados-del-vi-consejo-directivo-2024-2026/',
   ),
   1 => 
@@ -23,7 +23,7 @@ return array (
     'thumbnail' => 'https://www.amuvie.mx/wp-content/uploads/2026/05/1.png',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/estadisticas-de-redes-sociales-del-vi-consejo-directivo-2024-2026/',
+    'local_url' => site_url('estadisticas-de-redes-sociales-del-vi-consejo-directivo-2024-2026/'),
     'source_url' => 'https://www.amuvie.mx/estadisticas-de-redes-sociales-del-vi-consejo-directivo-2024-2026/',
   ),
   2 => 
@@ -35,7 +35,7 @@ return array (
     'thumbnail' => 'https://www.amuvie.mx/wp-content/uploads/2026/03/CONVOCATORIA-ASAMBLEA-extraordinaria-2026_page-0001.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/convocatoria-asamblea-extraordinaria-2026/',
+    'local_url' => site_url('convocatoria-asamblea-extraordinaria-2026/'),
     'source_url' => 'https://www.amuvie.mx/convocatoria-asamblea-extraordinaria-2026/',
   ),
   3 => 
@@ -47,7 +47,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/239/original/62_conv_CCNNIE_y_GTs-1.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/integracion-de-amuvie-al-ccnnie-e-invitacion-para-unirse-a-los-grupos-de-trabajo/',
+    'local_url' => site_url('integracion-de-amuvie-al-ccnnie-e-invitacion-para-unirse-a-los-grupos-de-trabajo/'),
     'source_url' => 'https://www.amuvie.mx/integracion-de-amuvie-al-ccnnie-e-invitacion-para-unirse-a-los-grupos-de-trabajo/',
   ),
   4 => 
@@ -59,7 +59,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/242/original/WhatsApp_Image_2025-06-18_at_10.13.34_AM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/consulta-el-programa-asamblea-general-ordinaria/',
+    'local_url' => site_url('consulta-el-programa-asamblea-general-ordinaria/'),
     'source_url' => 'https://www.amuvie.mx/consulta-el-programa-asamblea-general-ordinaria/',
   ),
   5 => 
@@ -71,7 +71,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/234/original/OFICIO_PARA_OEC_ENCUESTA-1.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/invitacion-del-ipn-a-participar-en-encuesta-sobre-la-infraestructura-de-la-calidad/',
+    'local_url' => site_url('invitacion-del-ipn-a-participar-en-encuesta-sobre-la-infraestructura-de-la-calidad/'),
     'source_url' => 'https://www.amuvie.mx/invitacion-del-ipn-a-participar-en-encuesta-sobre-la-infraestructura-de-la-calidad/',
   ),
   6 => 
@@ -83,7 +83,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/231/original/WhatsApp_Image_2025-05-06_at_2.35.21_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/invitados-especiales-asamblea-general-ordinaria-amuvie-2025/',
+    'local_url' => site_url('invitados-especiales-asamblea-general-ordinaria-amuvie-2025/'),
     'source_url' => 'https://www.amuvie.mx/invitados-especiales-asamblea-general-ordinaria-amuvie-2025/',
   ),
   7 => 
@@ -95,7 +95,7 @@ return array (
     'thumbnail' => 'https://www.amuvie.mx/wp-content/uploads/2025/05/WhatsApp-Image-2026-03-28-at-11.53.57-AM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/manual-nom-001-sede-2012-edicion-especial-amuvie/',
+    'local_url' => site_url('manual-nom-001-sede-2012-edicion-especial-amuvie/'),
     'source_url' => 'https://www.amuvie.mx/manual-nom-001-sede-2012-edicion-especial-amuvie/',
   ),
   8 => 
@@ -107,7 +107,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/227/original/WhatsApp_Image_2025-05-02_at_3.17.09_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/amuvie-ac-electrivallara-2025/',
+    'local_url' => site_url('amuvie-ac-electrivallara-2025/'),
     'source_url' => 'https://www.amuvie.mx/amuvie-ac-electrivallara-2025/',
   ),
   9 => 
@@ -119,7 +119,7 @@ return array (
     'thumbnail' => 'https://www.amuvie.mx/wp-content/uploads/2025/04/WhatsApp-Image-2026-03-30-at-2.40.06-PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/souvenirs-amuvie-2025/',
+    'local_url' => site_url('souvenirs-amuvie-2025/'),
     'source_url' => 'https://www.amuvie.mx/souvenirs-amuvie-2025/',
   ),
   10 => 
@@ -131,7 +131,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/225/original/WhatsApp_Image_2025-04-16_at_12.48.03_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/asamblea-general-ordinaria-11vo-aniversario-de-la-asociacion/',
+    'local_url' => site_url('asamblea-general-ordinaria-11vo-aniversario-de-la-asociacion/'),
     'source_url' => 'https://www.amuvie.mx/asamblea-general-ordinaria-11vo-aniversario-de-la-asociacion/',
   ),
   11 => 
@@ -143,7 +143,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/221/original/7f6411b3-6757-4076-881e-0f6fbb8cc33c.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/amuvie-presente-en-la-celebracion-de-verificadores-unidos-de-mexico/',
+    'local_url' => site_url('amuvie-presente-en-la-celebracion-de-verificadores-unidos-de-mexico/'),
     'source_url' => 'https://www.amuvie.mx/amuvie-presente-en-la-celebracion-de-verificadores-unidos-de-mexico/',
   ),
   12 => 
@@ -155,7 +155,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/220/original/WhatsApp_Image_2025-04-03_at_3.08.37_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/amuvie-presente-en-la-asamblea-ordinaria-de-musica/',
+    'local_url' => site_url('amuvie-presente-en-la-asamblea-ordinaria-de-musica/'),
     'source_url' => 'https://www.amuvie.mx/amuvie-presente-en-la-asamblea-ordinaria-de-musica/',
   ),
   13 => 
@@ -178,7 +178,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/217/original/GRUPO_DE_TRABAJO_CONUEE-1.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/convocatoria-a-grupo-de-trabajo-de-la-conuee/',
+    'local_url' => site_url('convocatoria-a-grupo-de-trabajo-de-la-conuee/'),
     'source_url' => 'https://www.amuvie.mx/convocatoria-a-grupo-de-trabajo-de-la-conuee/',
   ),
   15 => 
@@ -190,7 +190,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/216/original/8a765344-4219-44ad-9f9f-700bf2c26615.jpg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/atento-aviso/',
+    'local_url' => site_url('atento-aviso/'),
     'source_url' => 'https://www.amuvie.mx/atento-aviso/',
   ),
   16 => 
@@ -202,7 +202,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/215/original/WhatsApp_Image_2025-03-26_at_3.03.36_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/comision-ejecutiva-ema/',
+    'local_url' => site_url('comision-ejecutiva-ema/'),
     'source_url' => 'https://www.amuvie.mx/comision-ejecutiva-ema/',
   ),
   17 => 
@@ -214,7 +214,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/213/original/WhatsApp_Image_2025-03-26_at_12.44.45_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/muchas-felicidades-ing-aquiles-manuel-lopez-marin/',
+    'local_url' => site_url('muchas-felicidades-ing-aquiles-manuel-lopez-marin/'),
     'source_url' => 'https://www.amuvie.mx/muchas-felicidades-ing-aquiles-manuel-lopez-marin/',
   ),
   18 => 
@@ -226,7 +226,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/211/original/WhatsApp_Image_2025-03-26_at_12.38.48_PM.jpeg',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/promocion-membresia-2025/',
+    'local_url' => site_url('promocion-membresia-2025/'),
     'source_url' => 'https://www.amuvie.mx/promocion-membresia-2025/',
   ),
   19 => 
@@ -238,7 +238,7 @@ return array (
     'thumbnail' => 'https://assets.ipzmarketing.com/data/e8547d716efa902a22e36623c45b75dd909282a0/media_files/210/original/pdf.png',
     'excerpt' => '',
     'content' => NULL,
-    'local_url' => '/AmuvePage/nuevo-oficio-a-stps-para-tramites-pendientes/',
+    'local_url' => site_url('nuevo-oficio-a-stps-para-tramites-pendientes/'),
     'source_url' => 'https://www.amuvie.mx/nuevo-oficio-a-stps-para-tramites-pendientes/',
   ),
   20 => 

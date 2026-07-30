@@ -4,8 +4,8 @@
     <section class="sponsors" aria-labelledby="sponsors-title">
         <h1 class="section-title" id="sponsors-title">Patrocinadores Oficiales</h1>
         <div class="sponsors__card">
-            <img src="/AmuvePage/assets/images/logo-ance.png" alt="ANCE Estándares">
-            <img src="/AmuvePage/assets/images/logo-ema.png" alt="Entidad Mexicana de Acreditación">
+            <img src="<?= htmlspecialchars(site_url('assets/images/logo-ance.png'), ENT_QUOTES, 'UTF-8') ?>" alt="ANCE Estándares">
+            <img src="<?= htmlspecialchars(site_url('assets/images/logo-ema.png'), ENT_QUOTES, 'UTF-8') ?>" alt="Entidad Mexicana de Acreditación">
         </div>
     </section>
 

@@ -17,9 +17,9 @@ $postEmailContent = <<<'HTML'
 HTML;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/icono-documento-pdf.png',
+        'src' => site_url('assets/images/icono-documento-pdf.png'),
         'alt' => 'Descargar nuevo oficio a STPS para trámites pendientes',
-        'href' => '/AmuvePage/assets/documents/oficio-tramites-pendientes-stps.pdf',
+        'href' => site_url('assets/documents/oficio-tramites-pendientes-stps.pdf'),
         'class' => 'post-email__download',
     ],
 ];

@@ -6,11 +6,11 @@ $postTitle = '¡Muchas felicidades Ing. Aquiles Manuel López Marin!';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-felicidades-aquiles-lopez-1.jpg',
+        'src' => site_url('assets/images/blog-felicidades-aquiles-lopez-1.jpg'),
         'alt' => 'Felicitación al Ing. Aquiles Manuel López Marín como presidente de CANAME',
     ],
     [
-        'src' => '/AmuvePage/assets/images/blog-felicidades-aquiles-lopez-2.jpg',
+        'src' => site_url('assets/images/blog-felicidades-aquiles-lopez-2.jpg'),
         'alt' => 'Participación de AMUVIE en la Asamblea CANAME 2025',
     ],
 ];

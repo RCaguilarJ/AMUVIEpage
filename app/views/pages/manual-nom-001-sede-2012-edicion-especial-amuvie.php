@@ -6,7 +6,7 @@ $postTitle = 'Manual NOM 001 SEDE 2012 – Edición Especial AMUVIE';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-manual-nom-001-sede-2012.jpg',
+        'src' => site_url('a'),
         'alt' => 'Manual NOM-001-SEDE-2012, edición especial ANCE-AMUVIE',
     ],
 ];

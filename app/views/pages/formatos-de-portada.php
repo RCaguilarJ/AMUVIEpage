@@ -18,8 +18,8 @@
             </div>
             <aside class="member-login">
                 <h3>¿Ya eres socio?</h3>
-                <img src="/AmuvePage/assets/images/member-icon.png" alt="">
-                <a href="/AmuvePage/portal-amuvie/">Inicia Sesión en tu cuenta para agilizar tu solicitud</a>
+                <img src="<?= htmlspecialchars(site_url('assets/images/member-icon.png'), ENT_QUOTES, 'UTF-8') ?>" alt="">
+                <a href="<?= htmlspecialchars(site_url('portal-amuvie/'), ENT_QUOTES, 'UTF-8') ?>">Inicia Sesión en tu cuenta para agilizar tu solicitud</a>
             </aside>
         </section>
 

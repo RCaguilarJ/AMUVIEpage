@@ -52,7 +52,7 @@ $postIsLocal = static fn (array $post): bool => isset($post['local_url']);
                         | Teléfono: 332 5287 852 | WhatsApp 33 2528 7852
                     </div>
                     <div class="post-email__logo">
-                        <img src="/AmuvePage/assets/images/logo-amuvie.png" alt="AMUVIE A.C.">
+                        <img src="<?= htmlspecialchars(site_url('assets/images/logo-amuvie.png'), ENT_QUOTES, 'UTF-8') ?>" alt="AMUVIE A.C.">
                     </div>
                     <div class="post-email__body">
                         <?php if (!empty($postEmailContent)): ?>
@@ -95,7 +95,7 @@ $postIsLocal = static fn (array $post): bool => isset($post['local_url']);
                         </div>
                         <p>
                             Copyright 2024 ® Asociación Mexicana de Unidades de Verificación, Inspección y Estandarización AC<br>
-                            <a href="/AmuvePage/aviso-de-privacidad/">Aviso de Privacidad</a> |
+                            <a href="<?= htmlspecialchars(site_url('aviso-de-privacidad/'), ENT_QUOTES, 'UTF-8') ?>">Aviso de Privacidad</a> |
                             <a href="#">Darme de Baja</a>
                         </p>
                     </div>

@@ -496,7 +496,7 @@ img {
     color: #fff;
     background:
         linear-gradient(rgb(0 0 0 / 52%), rgb(0 0 0 / 52%)),
-        url("/AmuvePage/assets/images/inner-banner.jpeg") center / cover no-repeat;
+        url("../images/inner-banner.jpeg") center / cover no-repeat;
 }
 
 .post-hero__inner {
@@ -826,14 +826,14 @@ img {
     height: min(63vw, 620px);
     min-height: 440px;
     border-bottom: 7px solid #0b2850;
-    background: url("/AmuvePage/assets/images/hero-asamblea.jpg") center 58% / cover no-repeat;
+    background: url("../images/hero-asamblea.jpg") center 58% / cover no-repeat;
 }
 
 .sponsors {
     min-height: 270px;
     padding: 34px 20px 46px;
     text-align: center;
-    background: #fff url("/AmuvePage/assets/images/patron-bg.jpg") repeat;
+    background: #fff url("../images/patron-bg.jpg") repeat;
 }
 
 .section-title {
@@ -1003,7 +1003,7 @@ img {
     text-align: center;
     background:
         linear-gradient(rgb(0 0 0 / 52%), rgb(0 0 0 / 52%)),
-        url("/AmuvePage/assets/images/inner-banner.jpeg") center / cover no-repeat;
+        url("../images/inner-banner.jpeg") center / cover no-repeat;
 }
 
 .inner-hero h1 {
@@ -1765,7 +1765,7 @@ img {
     align-items: center;
     background:
         linear-gradient(rgb(0 0 0 / 55%), rgb(0 0 0 / 55%)),
-        url("/AmuvePage/assets/images/afiliate-bg.jpg") center / cover no-repeat;
+        url("../images/afiliate-bg.jpg") center / cover no-repeat;
     color: #fff;
 }
 

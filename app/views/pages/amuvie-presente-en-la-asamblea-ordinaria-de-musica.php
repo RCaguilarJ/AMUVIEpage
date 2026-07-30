@@ -6,7 +6,7 @@ $postTitle = 'AMUVIE Presente en la Asamblea Ordinaria de Música';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-asamblea-ordinaria-musica.jpg',
+        'src' => site_url('a'),
         'alt' => 'AMUVIE presente en la Asamblea Ordinaria de Música',
     ],
 ];

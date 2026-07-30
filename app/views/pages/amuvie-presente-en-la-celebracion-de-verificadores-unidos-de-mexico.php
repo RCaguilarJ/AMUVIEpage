@@ -6,7 +6,7 @@ $postTitle = 'AMUVIE Presente en la Celebración de Verificadores Unidos de Méx
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-verificadores-unidos-mexico.jpg',
+        'src' => site_url('a'),
         'alt' => 'AMUVIE presente en la celebración de Verificadores Unidos de México',
     ],
 ];

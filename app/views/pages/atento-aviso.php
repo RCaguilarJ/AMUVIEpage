@@ -6,7 +6,7 @@ $postTitle = 'Atento Aviso';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-atento-aviso.jpg',
+        'src' => site_url('a'),
         'alt' => 'Atento aviso de AMUVIE sobre el anteproyecto de la NOM-001-SEDE-2025',
     ],
 ];

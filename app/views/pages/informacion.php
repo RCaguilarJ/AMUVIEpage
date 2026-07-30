@@ -16,7 +16,11 @@ $informationDocuments = require dirname(__DIR__, 2) . '/data/information-documen
             <?php foreach ($informationDocuments as $document): ?>
                 <li>
                     <a
-                        href="/AmuvePage/assets/documents/informacion/<?= rawurlencode($document['file']) ?>"
+                        href="<?= htmlspecialchars(
+                            site_url('assets/documents/informacion/' . rawurlencode($document['file'])),
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

@@ -12,7 +12,7 @@ $associates = require dirname(__DIR__, 2) . '/data/associates.php';
     <article class="associates-page">
         <p class="associates-page__notice">
             *** Si deseas visualizar la información de contacto de nuestros asociados
-            <a href="/AmuvePage/portal-amuvie/">inicia sesión con tu cuenta.</a>
+            <a href="<?= htmlspecialchars(site_url('portal-amuvie/'), ENT_QUOTES, 'UTF-8') ?>">inicia sesión con tu cuenta.</a>
         </p>
 
         <div class="associates-toolbar">

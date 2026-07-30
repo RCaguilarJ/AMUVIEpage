@@ -10,7 +10,7 @@
         <section class="book-summary">
             <img
                 class="book-summary__cover"
-                src="/AmuvePage/assets/images/libro-calidad-energia.png"
+                src="<?= htmlspecialchars(site_url('assets/images/libro-calidad-energia.png'), ENT_QUOTES, 'UTF-8') ?>"
                 alt="Portada del libro Calidad de Energía, Síntesis de la Teoría a la Praxis"
             >
             <div>

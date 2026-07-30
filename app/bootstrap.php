@@ -1,6 +1,17 @@
 <?php
 declare(strict_types=1);
 
+$basePath ??= rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+if ($basePath === '.') {
+    $basePath = '';
+}
+
+if (!defined('SITE_BASE_PATH')) {
+    define('SITE_BASE_PATH', $basePath);
+}
+
+require_once __DIR__ . '/helpers.php';
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start([
         'cookie_httponly' => true,
@@ -51,7 +62,7 @@ if ($vista === 'portal-amuvie' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POS
                     'UPDATE users SET last_login_at = NOW() WHERE id = :id'
                 );
                 $statement->execute(['id' => $authenticatedUser['id']]);
-                header('Location: ' . ($_SERVER['REQUEST_URI'] ?? '/AmuvePage/portal-amuvie/'));
+                header('Location: ' . ($_SERVER['REQUEST_URI'] ?? site_url('portal-amuvie/')));
                 exit;
             }
         } catch (PDOException) {

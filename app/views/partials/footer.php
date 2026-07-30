@@ -1,5 +1,5 @@
 <footer class="site-footer">
-    <img class="site-footer__logo" src="/AmuvePage/assets/images/logo-footer.png" alt="AMUVIE A.C.">
+    <img class="site-footer__logo" src="<?= htmlspecialchars(site_url('assets/images/logo-footer.png'), ENT_QUOTES, 'UTF-8') ?>" alt="AMUVIE A.C.">
 
     <div class="site-footer__columns">
         <section>
@@ -8,18 +8,18 @@
                 <li><a href="#">Catálogo de productos y servicios</a></li>
                 <li><a href="#">Servicios educativos</a></li>
                 <li><a href="#">Bolsa de trabajo</a></li>
-                <li><a href="/AmuvePage/capacitacion/">Capacitación</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('capacitacion/'), ENT_QUOTES, 'UTF-8') ?>">Capacitación</a></li>
             </ul>
         </section>
 
         <section>
             <h2>Directorios</h2>
             <ul>
-                <li><a href="/AmuvePage/convenios-comerciales-para-afiliados/">Convenios comerciales para afiliados</a></li>
-                <li><a href="/AmuvePage/proveedores-asociados/">Proveedores – Asociados</a></li>
-                <li><a href="/AmuvePage/consejo-directivo/">Consejo Directivo</a></li>
-                <li><a href="/AmuvePage/institucional/">Institucional</a></li>
-                <li><a href="/AmuvePage/asociados/">Asociados</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('convenios-comerciales-para-afiliados/'), ENT_QUOTES, 'UTF-8') ?>">Convenios comerciales para afiliados</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('proveedores-asociados/'), ENT_QUOTES, 'UTF-8') ?>">Proveedores – Asociados</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('consejo-directivo/'), ENT_QUOTES, 'UTF-8') ?>">Consejo Directivo</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('institucional/'), ENT_QUOTES, 'UTF-8') ?>">Institucional</a></li>
+                <li><a href="<?= htmlspecialchars(site_url('asociados/'), ENT_QUOTES, 'UTF-8') ?>">Asociados</a></li>
             </ul>
         </section>
     </div>

@@ -6,7 +6,7 @@ $postTitle = 'SOUVENIRS AMUVIE 2026';
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-souvenirs-amuvie-2026.jpg',
+        'src' => site_url('a'),
         'alt' => 'Kit de souvenirs AMUVIE 2026 con logos de patrocinadores oficiales',
     ],
 ];

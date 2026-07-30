@@ -5,12 +5,12 @@ $postEmailLayout = true;
 $surveyUrl = 'https://forms.gle/RrpKYGQj5kd5McKQ6';
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-invitacion-ipn-encuesta.jpg',
+        'src' => site_url('assets/images/blog-invitacion-ipn-encuesta.jpg'),
         'alt' => 'Oficio del Instituto Politécnico Nacional para responder una encuesta sobre infraestructura de la calidad',
         'href' => $surveyUrl,
     ],
     [
-        'src' => '/AmuvePage/assets/images/blog-invitacion-ipn-boton.png',
+        'src' => site_url('assets/images/blog-invitacion-ipn-boton.png'),
         'alt' => 'Realizar encuesta',
         'href' => $surveyUrl,
         'class' => 'post-email__action',

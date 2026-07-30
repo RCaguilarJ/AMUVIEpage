@@ -4,11 +4,11 @@ $postTitle = 'Integración de AMUVIE al CCNNIE e invitación para unirse a los g
 $postEmailLayout = true;
 $postImages = [
     [
-        'src' => '/AmuvePage/assets/images/blog-integracion-ccnnie-1.jpg',
+        'src' => site_url('assets/images/blog-integracion-ccnnie-1.jpg'),
         'alt' => 'Aviso de integración de AMUVIE al CCNNIE y convocatoria a grupos de trabajo, primera página',
     ],
     [
-        'src' => '/AmuvePage/assets/images/blog-integracion-ccnnie-2.jpg',
+        'src' => site_url('assets/images/blog-integracion-ccnnie-2.jpg'),
         'alt' => 'Aviso de integración de AMUVIE al CCNNIE y convocatoria a grupos de trabajo, segunda página',
     ],
 ];

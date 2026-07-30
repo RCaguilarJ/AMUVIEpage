@@ -9,27 +9,27 @@
     <article class="inner-page council-page">
         <section class="council-grid" aria-label="Integrantes del Consejo Directivo">
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-luis.jpg" alt="Luis Ignacio Olvera Ochoa">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-luis.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Luis Ignacio Olvera Ochoa">
                 <h2>M. en C. Luis Ignacio Olvera Ochoa</h2><strong>Presidente</strong><small>Tepic, Nayarit.</small>
             </article>
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-ignacio.jpg" alt="Ignacio Castañeda Mosqueda">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-ignacio.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Ignacio Castañeda Mosqueda">
                 <h2>Ing. Ignacio Castañeda Mosqueda</h2><strong>Vicepresidente</strong><small>Morelia, Michoacán.</small>
             </article>
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-carlos.jpg" alt="Carlos Betancourt de León">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-carlos.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Carlos Betancourt de León">
                 <h2>Ing. Carlos Betancourt de León</h2><strong>Secretario</strong><small>Chihuahua, Chihuahua.</small>
             </article>
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-efraim.jpg" alt="Efraim Castellanos Frayre">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-efraim.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt="Efraim Castellanos Frayre">
                 <h2>Ing. Efraim Castellanos Frayre</h2><strong>Tesorero</strong><small>Durango, Durango.</small>
             </article>
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-placeholder.png" alt="">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-placeholder.png'), ENT_QUOTES, 'UTF-8') ?>" alt="">
                 <h2>Ing. Ricardo Quijas González</h2><strong>Sub - secretario</strong><small>Guadalajara, Jalisco.</small>
             </article>
             <article class="council-member">
-                <img src="/AmuvePage/assets/images/consejo-daniel.jpeg" alt="Daniel Mauricio Reynada Ramos">
+                <img src="<?= htmlspecialchars(site_url('assets/images/consejo-daniel.jpeg'), ENT_QUOTES, 'UTF-8') ?>" alt="Daniel Mauricio Reynada Ramos">
                 <h2>Ing. Daniel Mauricio Reynada Ramos</h2><strong>Sub - tesorero</strong><small>CDMX.</small>
             </article>
         </section>

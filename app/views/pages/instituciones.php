@@ -66,7 +66,11 @@ $institutions = [
                     aria-label="Visitar el sitio de <?= htmlspecialchars($institution['name'], ENT_QUOTES, 'UTF-8') ?>"
                 >
                     <img
-                        src="/AmuvePage/assets/images/<?= htmlspecialchars($institution['image'], ENT_QUOTES, 'UTF-8') ?>"
+                        src="<?= htmlspecialchars(
+                            site_url('assets/images/' . $institution['image']),
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
                         alt="<?= htmlspecialchars($institution['name'], ENT_QUOTES, 'UTF-8') ?>"
                         loading="lazy"
                     >
