@@ -79,7 +79,17 @@ if ($vista === 'portal-amuvie' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POS
                 (string) $exception->getCode(),
                 $exception->getMessage()
             ));
-            $loginError = 'No fue posible conectar con el portal. Referencia: ' . $errorReference . '.';
+            $databaseMessage = $exception->getMessage();
+            $loginCause = match (true) {
+                str_contains($databaseMessage, '[1045]') => 'Las credenciales configuradas para la base de datos fueron rechazadas.',
+                str_contains($databaseMessage, '[1049]') => 'La base de datos configurada no existe.',
+                str_contains($databaseMessage, '[2002]') => 'No fue posible localizar el servidor de base de datos.',
+                str_contains($databaseMessage, 'could not find driver') => 'El servidor no tiene habilitada la extensión PDO para MySQL.',
+                str_contains($databaseMessage, '1146') || str_contains($databaseMessage, 'Base table or view not found') => 'Faltan las tablas del portal; deben ejecutarse las migraciones.',
+                (string) $exception->getCode() === 'HY093' => 'La versión desplegada de la consulta de autenticación está desactualizada.',
+                default => 'Ocurrió un error de base de datos no identificado.',
+            };
+            $loginError = $loginCause . ' Referencia: ' . $errorReference . '.';
         }
     }
 }
