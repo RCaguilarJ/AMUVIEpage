@@ -26,7 +26,7 @@ INSERT INTO user_profiles
      municipality, postal_code, cfdi_use, payment_method, business_phone, business_email)
 SELECT id, 'Oscar Hinojosa', 'Aguilar', 'Empresa', 'demo', 'Zapopan', 'Jalisco', '(331) 144-5589',
        '(331) 116-1573', 'http://www.designsgdl.com.mx', '2022-05-18', 'nada',
-       'Oscar Efren Hinojosa Aguilar', 'HIAO900426KN3', 'Av. Guadalupe', '1365', 'Arcos Guadalupe',
+       'Carlos Aguilarr', 'HIAO900426KN3', 'Av. del tesoro', '2130', 'Cerro del tesoro',
        'Zapopan', '45852', 'G03 - Gastos en general', 'Transferencia', '3311445589', 'oscar90.aguilar@gmail.com'
 FROM users WHERE username='demo'
 ON DUPLICATE KEY UPDATE first_name=VALUES(first_name);

@@ -154,7 +154,9 @@ if (contactPageForm) {
             return;
         }
 
-        contactStatus.textContent = 'Formulario validado. El envío se habilitará al conectar el servicio de correo.';
+        if (contactStatus) {
+            contactStatus.textContent = 'Formulario validado. El envío se habilitará al conectar el servicio de correo.';
+        }
     });
 }
 
@@ -181,7 +183,8 @@ if (accessPageForm) {
     const passwordInput = accessPageForm.querySelector('[data-password-input]');
     const passwordToggle = accessPageForm.querySelector('[data-password-toggle]');
 
-    passwordToggle.addEventListener('click', () => {
+    passwordToggle?.addEventListener('click', () => {
+        if (!passwordInput) return;
         const willShowPassword = passwordInput.type === 'password';
         passwordInput.type = willShowPassword ? 'text' : 'password';
         passwordToggle.setAttribute('aria-pressed', String(willShowPassword));
