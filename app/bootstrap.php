@@ -71,8 +71,15 @@ if ($vista === 'portal-amuvie' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POS
                 header('Location: ' . site_url('mi-perfil/'));
                 exit;
             }
-        } catch (PDOException) {
-            $loginError = 'No fue posible conectar con el portal. Inténtalo nuevamente más tarde.';
+        } catch (PDOException $exception) {
+            $errorReference = strtoupper(substr(hash('sha256', $exception->getCode() . '|' . $exception->getMessage()), 0, 8));
+            error_log(sprintf(
+                '[AMUVIE LOGIN %s] PDO %s: %s',
+                $errorReference,
+                (string) $exception->getCode(),
+                $exception->getMessage()
+            ));
+            $loginError = 'No fue posible conectar con el portal. Referencia: ' . $errorReference . '.';
         }
     }
 }
