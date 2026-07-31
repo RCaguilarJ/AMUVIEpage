@@ -7,7 +7,7 @@
     </section>
 
     <section class="access-page" aria-label="Acceso al portal AMUVIE">
-        <form class="access-card" method="post">
+        <form class="access-card" method="post" data-access-form>
             <h2>Formulario de Acceso</h2>
             <input
                 type="hidden"

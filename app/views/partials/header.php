@@ -79,10 +79,20 @@
             <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
 
-        <a class="amuvie-login-button" href="<?= htmlspecialchars(site_url('portal-amuvie/'), ENT_QUOTES, 'UTF-8') ?>">
-            <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
-            <span>Acceder</span>
-        </a>
+        <?php require_once dirname(__DIR__, 2) . '/auth.php'; $headerUser = currentUser(); ?>
+        <div class="amuvie-header-actions">
+            <a class="amuvie-login-button" href="<?= htmlspecialchars(site_url($headerUser ? 'mi-perfil/' : 'portal-amuvie/'), ENT_QUOTES, 'UTF-8') ?>">
+                <i class="fas <?= $headerUser ? 'fa-user' : 'fa-sign-in-alt' ?>" aria-hidden="true"></i>
+                <span><?= $headerUser ? 'Mi perfil' : 'Acceder' ?></span>
+            </a>
+            <?php if ($headerUser): ?>
+                <form method="post" class="amuvie-logout-form">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit"><i class="fas fa-sign-out-alt" aria-hidden="true"></i><span>Cerrar sesión</span></button>
+                </form>
+            <?php endif; ?>
+        </div>
     </div>
 </header>
 

@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS user_profiles (
+    user_id BIGINT UNSIGNED PRIMARY KEY,
+    first_name VARCHAR(100) NULL,
+    last_name VARCHAR(100) NULL,
+    company VARCHAR(150) NULL,
+    joined_at DATE NULL,
+    public_name VARCHAR(150) NULL,
+    city VARCHAR(100) NULL,
+    state VARCHAR(100) NULL,
+    phone VARCHAR(30) NULL,
+    mobile VARCHAR(30) NULL,
+    website VARCHAR(255) NULL,
+    photo_path VARCHAR(255) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT user_profiles_user_fk FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

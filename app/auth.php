@@ -11,11 +11,12 @@ function findUserByLogin(string $login): ?array
          FROM users u
          LEFT JOIN user_roles ur ON ur.user_id = u.id
          LEFT JOIN roles r ON r.id = ur.role_id
-         WHERE u.username = :login OR u.email = :login
+         WHERE u.username = :username_login OR u.email = :email_login
          GROUP BY u.id
          LIMIT 1'
     );
-    $statement->execute(['login' => trim($login)]);
+    $normalizedLogin = trim($login);
+    $statement->execute(['username_login' => $normalizedLogin, 'email_login' => $normalizedLogin]);
     $user = $statement->fetch();
 
     if (!$user) {

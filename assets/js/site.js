@@ -180,7 +180,6 @@ const accessPageForm = document.querySelector('[data-access-form]');
 if (accessPageForm) {
     const passwordInput = accessPageForm.querySelector('[data-password-input]');
     const passwordToggle = accessPageForm.querySelector('[data-password-toggle]');
-    const accessStatus = accessPageForm.querySelector('[data-access-status]');
 
     passwordToggle.addEventListener('click', () => {
         const willShowPassword = passwordInput.type === 'password';
@@ -194,14 +193,86 @@ if (accessPageForm) {
         passwordToggle.querySelector('i')?.classList.toggle('fa-eye-slash', willShowPassword);
     });
 
-    accessPageForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+}
 
-        if (!accessPageForm.checkValidity()) {
-            accessPageForm.reportValidity();
-            return;
+const memberClock = document.querySelector('[data-member-clock]');
+if (memberClock) {
+    const updateMemberClock = () => {
+        memberClock.textContent = new Date().toLocaleTimeString('es-MX', { hour12: false }).replaceAll(':', ' : ');
+    };
+    updateMemberClock();
+    window.setInterval(updateMemberClock, 1000);
+}
+
+document.querySelectorAll('[data-credential-qr]').forEach((qr) => {
+    const value = qr.dataset.qrValue || '';
+    let seed = Array.from(value).reduce((total, character) => ((total * 31) + character.charCodeAt(0)) >>> 0, 2166136261);
+    const size = 25;
+    const finder = (row, column, top, left) => row >= top && row < top + 7 && column >= left && column < left + 7
+        && (row === top || row === top + 6 || column === left || column === left + 6 || (row >= top + 2 && row <= top + 4 && column >= left + 2 && column <= left + 4));
+    for (let row = 0; row < size; row += 1) {
+        for (let column = 0; column < size; column += 1) {
+            seed = ((seed * 1664525) + 1013904223) >>> 0;
+            const module = document.createElement('span');
+            const inFinderArea = (row < 7 && column < 7) || (row < 7 && column >= size - 7) || (row >= size - 7 && column < 7);
+            const finderOn = finder(row, column, 0, 0) || finder(row, column, 0, size - 7) || finder(row, column, size - 7, 0);
+            if (finderOn || (!inFinderArea && seed % 3 !== 0)) module.className = 'is-dark';
+            qr.appendChild(module);
         }
+    }
+});
 
-        accessStatus.textContent = 'Formulario validado. La autenticación se conectará con el backend del portal.';
+document.querySelector('[data-print-credential]')?.addEventListener('click', () => window.print());
+
+const librarySearch = document.querySelector('[data-library-search]');
+if (librarySearch) {
+    const libraryDocuments = Array.from(document.querySelectorAll('[data-library-document]'));
+    const libraryCount = document.querySelector('[data-library-count]');
+    const libraryEmpty = document.querySelector('[data-library-empty]');
+    const normalizeLibraryText = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es-MX');
+    librarySearch.addEventListener('input', () => {
+        const query = normalizeLibraryText(librarySearch.value.trim());
+        let visible = 0;
+        libraryDocuments.forEach((documentCard) => {
+            const matches = normalizeLibraryText(documentCard.dataset.search).includes(query);
+            documentCard.hidden = !matches;
+            if (matches) visible += 1;
+        });
+        libraryCount.textContent = `${visible} ${visible === 1 ? 'documento' : 'documentos'}`;
+        libraryEmpty.hidden = visible !== 0;
     });
+}
+
+const formatRequest = document.querySelector('[data-format-request]');
+if (formatRequest) {
+    const requestTotal = formatRequest.querySelector('[data-request-total]');
+    const requestFiles = formatRequest.querySelector('[data-request-files]');
+    const uploadLabel = formatRequest.querySelector('[data-upload-label]');
+    formatRequest.querySelectorAll('[data-delivery-price]').forEach((option) => option.addEventListener('change', () => {
+        requestTotal.textContent = `$${Number(option.dataset.deliveryPrice).toFixed(2)}`;
+    }));
+    requestFiles.addEventListener('change', () => {
+        uploadLabel.textContent = requestFiles.files.length === 1 ? requestFiles.files[0].name : `${requestFiles.files.length} archivos seleccionados`;
+    });
+}
+
+const tariffCalculator = document.querySelector('[data-tariff-calculator]');
+if (tariffCalculator) {
+    const tariffServices = Array.from(tariffCalculator.querySelectorAll('[name="tariff_service"]'));
+    const tariffRange = tariffCalculator.querySelector('[data-tariff-range]');
+    const tariffDownload = tariffCalculator.querySelector('[data-download-tariff]');
+    const tariffSummary = tariffCalculator.querySelector('[data-tariff-summary]');
+    const updateTariffSelection = () => {
+        const selectedService = tariffServices.find((option) => option.checked)?.value || '';
+        const isComplete = selectedService !== '' && tariffRange.value !== '';
+        tariffDownload.disabled = !isComplete;
+        tariffSummary.hidden = !isComplete;
+        if (isComplete) {
+            tariffSummary.querySelector('[data-summary-service]').textContent = selectedService;
+            tariffSummary.querySelector('[data-summary-range]').textContent = tariffRange.value;
+        }
+    };
+    tariffServices.forEach((option) => option.addEventListener('change', updateTariffSelection));
+    tariffRange.addEventListener('change', updateTariffSelection);
+    tariffDownload.addEventListener('click', () => window.print());
 }
