@@ -133,6 +133,21 @@ img {
     transform: translateY(0);
 }
 
+.private-panel .amuvie-main-header,
+.private-panel .partner-rail { display: none; }
+.amuvie-topbar.amuvie-topbar--private { width: 100%; min-height: 72px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding-inline: clamp(10px, 2vw, 32px); font-size: clamp(12px, 1.3vw, 18px); }
+.amuvie-private-welcome { min-width: 0; justify-self: stretch; overflow-wrap: anywhere; }
+.amuvie-private-logout { width: 100%; justify-self: stretch; display: flex; justify-content: center; }
+.amuvie-private-logout button { padding: 10px 22px; border: 0; border-radius: 3px; background: #fff; color: var(--amuvie-blue); font: 700 14px "Roboto Condensed", sans-serif; cursor: pointer; }
+.amuvie-private-clock { min-width: 0; justify-self: stretch; text-align: right; font: clamp(13px, 1.8vw, 25px) monospace; letter-spacing: clamp(0px, .2vw, 3px); white-space: nowrap; }
+
+@media (max-width: 700px) {
+    .amuvie-topbar.amuvie-topbar--private { grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 58px; padding-inline: 8px; font-size: clamp(9px, 2.7vw, 13px); }
+    .amuvie-private-welcome { line-height: 1.15; }
+    .amuvie-private-logout button { max-width: calc(100% - 10px); padding: 7px 5px; font-size: clamp(9px, 2.5vw, 12px); white-space: normal; }
+    .amuvie-private-clock { display: block; align-self: center; font-size: clamp(10px, 3vw, 15px); }
+}
+
 .amuvie-submenu--directories {
     min-width: 300px;
     padding: 0;

@@ -1,3 +1,4 @@
+<?php $isMemberView = isset($memberViews) && in_array($vista, $memberViews, true); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="<?= htmlspecialchars(site_url('assets/css/site.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
-<body class="view-<?= htmlspecialchars($vista, ENT_QUOTES, 'UTF-8') ?>">
+<body class="view-<?= htmlspecialchars($vista, ENT_QUOTES, 'UTF-8') ?><?= $isMemberView ? ' private-panel' : '' ?>">
     <?php require __DIR__ . '/../partials/header.php'; ?>
     <?php require $viewFile; ?>
     <?php if (!in_array($vista, ['mi-perfil', 'credencial-digital', 'comentarios-de-la-nom', 'biblioteca-de-documentos', 'documentos-consejo-directivo', 'solicitud-formatos-portadas', 'directorio-asociados-extendido', 'aranceles', 'enviar-mensaje'], true)) require __DIR__ . '/../partials/footer.php'; ?>

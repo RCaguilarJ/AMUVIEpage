@@ -1,5 +1,15 @@
+<?php require_once dirname(__DIR__, 2) . '/auth.php'; $headerUser = currentUser(); ?>
 <header class="amuvie-site-header" id="inicio">
-    <div class="amuvie-topbar" aria-label="Información de contacto">
+    <div class="amuvie-topbar<?= !empty($isMemberView) ? ' amuvie-topbar--private' : '' ?>" aria-label="<?= !empty($isMemberView) ? 'Sesión del asociado' : 'Información de contacto' ?>">
+        <?php if (!empty($isMemberView) && $headerUser): ?>
+        <div class="amuvie-private-welcome"><i class="fas fa-user-tie" aria-hidden="true"></i> Bienvenido de nuevo, <?= htmlspecialchars($headerUser['full_name'] ?: $headerUser['username'], ENT_QUOTES, 'UTF-8') ?></div>
+        <form method="post" class="amuvie-private-logout">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+            <input type="hidden" name="action" value="logout">
+            <button type="submit"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Cerrar sesión</button>
+        </form>
+        <time class="amuvie-private-clock" data-member-clock><?= date('H : i : s') ?></time>
+        <?php else: ?>
         <div class="amuvie-topbar__column">
             <i class="fas fa-envelope" aria-hidden="true"></i>
             <a href="mailto:admin@amuvie.mx">admin@amuvie.mx</a>
@@ -8,8 +18,10 @@
             <i class="fas fa-clock" aria-hidden="true"></i>
             <span>Horario de Atención: 9:00 am - 4:00 pm Hora del Centro de México</span>
         </div>
+        <?php endif; ?>
     </div>
 
+    <?php if (empty($isMemberView)): ?>
     <div class="amuvie-main-header">
         <a class="amuvie-brand" href="<?= htmlspecialchars(site_url('inicio/'), ENT_QUOTES, 'UTF-8') ?>" aria-label="AMUVIE A.C. — Inicio">
             <img class="amuvie-brand__logo" src="<?= htmlspecialchars(site_url('assets/images/logo-amuvie.png'), ENT_QUOTES, 'UTF-8') ?>" width="250" height="250" alt="AMUVIE A.C.">
@@ -79,7 +91,6 @@
             <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
 
-        <?php require_once dirname(__DIR__, 2) . '/auth.php'; $headerUser = currentUser(); ?>
         <div class="amuvie-header-actions">
             <a class="amuvie-login-button" href="<?= htmlspecialchars(site_url($headerUser ? 'mi-perfil/' : 'portal-amuvie/'), ENT_QUOTES, 'UTF-8') ?>">
                 <i class="fas <?= $headerUser ? 'fa-user' : 'fa-sign-in-alt' ?>" aria-hidden="true"></i>
@@ -93,9 +104,11 @@
                 </form>
             <?php endif; ?>
         </div>
+        <?php endif; ?>
     </div>
 </header>
 
+<?php if (empty($isMemberView)): ?>
 <aside class="partner-rail" aria-label="Patrocinadores">
     <a href="#" aria-label="ANCE">
         <img src="<?= htmlspecialchars(site_url('assets/images/logo-ance.png'), ENT_QUOTES, 'UTF-8') ?>" alt="ANCE">
@@ -104,3 +117,4 @@
         <img src="<?= htmlspecialchars(site_url('assets/images/logo-ema.png'), ENT_QUOTES, 'UTF-8') ?>" alt="ema">
     </a>
 </aside>
+<?php endif; ?>
