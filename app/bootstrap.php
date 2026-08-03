@@ -148,6 +148,8 @@ if (in_array($vista, $memberViews, true)) {
                 $profileError = 'El correo de empresa no es válido.';
             } else {
                 $photoPath = null;
+                $removePhoto = ($_POST['remove_photo'] ?? '') === '1';
+                $currentPhotoPath = (string) (findProfile((int) $sessionUser['id'])['photo_path'] ?? '');
                 $uploadedPhoto = $_FILES['photo'] ?? null;
                 if (is_array($uploadedPhoto) && ($uploadedPhoto['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
                     if (($uploadedPhoto['error'] ?? null) !== UPLOAD_ERR_OK || ($uploadedPhoto['size'] ?? 0) > 2097152) {
@@ -158,22 +160,42 @@ if (in_array($vista, $memberViews, true)) {
                         if (!isset($extensions[$mime])) {
                             $profileError = 'La fotografía debe ser JPG, PNG o WebP.';
                         } else {
-                            $uploadDirectory = dirname(__DIR__) . '/assets/uploads/profiles';
-                            if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0755, true);
-                            $filename = $sessionUser['id'] . '-' . bin2hex(random_bytes(8)) . '.' . $extensions[$mime];
-                            if (!move_uploaded_file($uploadedPhoto['tmp_name'], $uploadDirectory . '/' . $filename)) $profileError = 'No fue posible guardar la fotografía.';
-                            else $photoPath = 'assets/uploads/profiles/' . $filename;
+                            $imageSize = @getimagesize($uploadedPhoto['tmp_name']);
+                            if ($imageSize === false || $imageSize[0] < 200 || $imageSize[1] < 200 || $imageSize[0] > 6000 || $imageSize[1] > 6000) {
+                                $profileError = 'La fotografía debe medir entre 200×200 y 6000×6000 píxeles.';
+                            } else {
+                                $uploadDirectory = dirname(__DIR__) . '/assets/uploads/profiles';
+                                if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0755, true);
+                                $filename = $sessionUser['id'] . '-' . bin2hex(random_bytes(8)) . '.' . $extensions[$mime];
+                                if (!move_uploaded_file($uploadedPhoto['tmp_name'], $uploadDirectory . '/' . $filename)) $profileError = 'No fue posible guardar la fotografía.';
+                                else {
+                                    $photoPath = 'assets/uploads/profiles/' . $filename;
+                                    $removePhoto = false;
+                                }
+                            }
                         }
                     }
                 }
                 if ($profileError === null) {
                     try {
-                        saveProfile((int) $sessionUser['id'], $profileData, $photoPath);
+                        saveProfile((int) $sessionUser['id'], $profileData, $photoPath, $removePhoto);
+                        if (($photoPath !== null || $removePhoto) && $currentPhotoPath !== '') {
+                            $oldPhoto = dirname(__DIR__) . '/' . ltrim(str_replace('\\', '/', $currentPhotoPath), '/');
+                            $profilesDirectory = realpath(dirname(__DIR__) . '/assets/uploads/profiles');
+                            $oldPhotoDirectory = realpath(dirname($oldPhoto));
+                            if ($profilesDirectory !== false && $oldPhotoDirectory === $profilesDirectory && is_file($oldPhoto)) {
+                                @unlink($oldPhoto);
+                            }
+                        }
                         $_SESSION['user']['email'] = $profileData['email'];
                         $_SESSION['user']['full_name'] = trim($profileData['first_name'] . ' ' . $profileData['last_name']);
                         header('Location: ' . site_url('mi-perfil/?guardado=1'));
                         exit;
                     } catch (PDOException $exception) {
+                        if ($photoPath !== null) {
+                            $newPhoto = dirname(__DIR__) . '/' . $photoPath;
+                            if (is_file($newPhoto)) @unlink($newPhoto);
+                        }
                         $profileError = (string) $exception->getCode() === '23000' ? 'Ese correo electrónico ya está asociado a otra cuenta.' : 'No fue posible guardar el perfil. Inténtalo nuevamente.';
                     }
                 }

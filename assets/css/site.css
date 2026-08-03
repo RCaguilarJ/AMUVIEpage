@@ -2194,6 +2194,16 @@ img {
 .profile-form small { display: block; margin-top: 4px; color: #666; font-size: 12px; font-style: italic; font-weight: 400; }
 .profile-photo { width: 90px; height: 90px; margin: 0 12px 8px 0; border-radius: 50%; object-fit: cover; vertical-align: middle; }
 .profile-photo-row input { width: auto; max-width: 100%; padding: 4px; }
+.profile-photo-editor { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.profile-photo-preview { width: 110px; height: 110px; flex: 0 0 110px; overflow: hidden; display: grid; place-items: center; border: 2px solid #e1e5e8; border-radius: 50%; background: #f2f3f4; }
+.profile-photo-preview .profile-photo { width: 100%; height: 100%; margin: 0; }
+.profile-photo-placeholder { color: #9ba3a8; font-size: 48px; }
+.profile-photo-button { display: inline-flex !important; width: auto !important; grid-template-columns: none !important; align-items: center !important; gap: 8px !important; margin: 0 !important; padding: 10px 14px; border-radius: 3px; background: var(--amuvie-blue); color: #fff; cursor: pointer; }
+.profile-photo-input { position: absolute; width: 1px !important; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.profile-photo-remove { display: flex !important; width: auto; grid-template-columns: auto 1fr !important; align-items: center !important; gap: 6px !important; margin: 0 !important; color: #a52121; cursor: pointer; }
+.profile-photo-remove input { width: auto !important; min-height: 0 !important; }
+.profile-photo-editor small { flex-basis: 100%; }
+.is-hidden { display: none !important; }
 .profile-message { max-width: 772px; padding: 11px 14px; border-radius: 3px; }
 .profile-message--error { background: #fff0f0; color: #a52121; }
 .profile-message--success { background: #edf7eb; color: #37622d; }
@@ -2414,6 +2424,8 @@ img {
 .digital-card__bottom strong { margin-left: auto; color: #075377; }
 .digital-card__bottom img { width: 70px; height: 48px; object-fit: contain; }
 .credential-download { margin: 16px auto; padding: 20px 45px; display: block; border: 0; background: #202020; color: #fff; font-size: 19px; font-weight: 700; cursor: pointer; }
+.credential-download:disabled { opacity: .65; cursor: wait; }
+.credential-download-status { min-height: 20px; margin: -8px auto 8px; color: #0a4768; text-align: center; }
 .credential-help { margin: 0 20px 22px; color: #666; text-align: center; }
 .credential-page .member-footer { margin: 0; }
 

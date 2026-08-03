@@ -23,7 +23,19 @@ $menu = [
             <h1>Mi Perfil</h1>
             <?php if ($profileError): ?><p class="profile-message profile-message--error" role="alert"><?= htmlspecialchars($profileError, ENT_QUOTES, 'UTF-8') ?></p><?php endif; ?>
             <?php if ($profileSuccess): ?><p class="profile-message profile-message--success" role="status"><?= htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8') ?></p><?php endif; ?>
-            <div class="profile-photo-row"><span>Foto</span><div><?php if (!empty($profile['photo_path'])): ?><img class="profile-photo" src="<?= htmlspecialchars(site_url($profile['photo_path']), ENT_QUOTES, 'UTF-8') ?>" alt="Fotografía actual"><?php endif; ?><input type="file" name="photo" accept="image/jpeg,image/png,image/webp"><small>Sube una foto a tu perfil</small></div></div>
+            <div class="profile-photo-row">
+                <span>Foto de perfil</span>
+                <div class="profile-photo-editor" data-profile-photo-editor>
+                    <div class="profile-photo-preview">
+                        <img class="profile-photo<?= empty($profile['photo_path']) ? ' is-hidden' : '' ?>" data-profile-photo-preview src="<?= !empty($profile['photo_path']) ? htmlspecialchars(site_url($profile['photo_path']), ENT_QUOTES, 'UTF-8') : '' ?>" alt="Vista previa de la fotografía">
+                        <span class="profile-photo-placeholder<?= !empty($profile['photo_path']) ? ' is-hidden' : '' ?>" data-profile-photo-placeholder><i class="fas fa-user"></i></span>
+                    </div>
+                    <label class="profile-photo-button" for="profile-photo-input"><i class="fas fa-camera"></i> Elegir fotografía</label>
+                    <input id="profile-photo-input" class="profile-photo-input" type="file" name="photo" accept="image/jpeg,image/png,image/webp" data-profile-photo-input>
+                    <?php if (!empty($profile['photo_path'])): ?><label class="profile-photo-remove"><input type="checkbox" name="remove_photo" value="1" data-remove-profile-photo> Eliminar foto actual</label><?php endif; ?>
+                    <small>JPG, PNG o WebP; máximo 2 MB. Usa una imagen cuadrada de al menos 200×200 px.</small>
+                </div>
+            </div>
 
             <fieldset><legend>Nombre Completo</legend>
                 <label><span>Usuario <b>*</b></span><div><input value="<?= $value('username') ?>" disabled><small>El nombre de usuario no se puede cambiar.</small></div></label>

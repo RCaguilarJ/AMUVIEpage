@@ -16,7 +16,7 @@ function findProfile(int $userId): array
     return $statement->fetch() ?: [];
 }
 
-function saveProfile(int $userId, array $data, ?string $photoPath): void
+function saveProfile(int $userId, array $data, ?string $photoPath, bool $removePhoto = false): void
 {
     $pdo = database();
     $pdo->beginTransaction();
@@ -26,6 +26,9 @@ function saveProfile(int $userId, array $data, ?string $photoPath): void
         $userValues = ['email' => $data['email'], 'full_name' => trim($data['first_name'] . ' ' . $data['last_name']) ?: null, 'id' => $userId];
         if ($data['new_password'] !== '') $userValues['password_hash'] = password_hash($data['new_password'], PASSWORD_DEFAULT);
         $statement->execute($userValues);
+        $photoUpdateSql = $removePhoto
+            ? 'photo_path=NULL'
+            : 'photo_path=COALESCE(VALUES(photo_path), photo_path)';
         $statement = $pdo->prepare(
             'INSERT INTO user_profiles (user_id, first_name, last_name, company, joined_at, public_name, city, state, phone, mobile, website, photo_path,
              birth_date, biography, business_name, tax_id, business_address, exterior_number, neighborhood, municipality, postal_code, cfdi_use, payment_method, business_phone, business_email)
@@ -33,7 +36,7 @@ function saveProfile(int $userId, array $data, ?string $photoPath): void
              :birth_date, :biography, :business_name, :tax_id, :business_address, :exterior_number, :neighborhood, :municipality, :postal_code, :cfdi_use, :payment_method, :business_phone, :business_email)
              ON DUPLICATE KEY UPDATE first_name=VALUES(first_name), last_name=VALUES(last_name), company=VALUES(company),
              joined_at=VALUES(joined_at), public_name=VALUES(public_name), city=VALUES(city), state=VALUES(state),
-             phone=VALUES(phone), mobile=VALUES(mobile), website=VALUES(website), photo_path=COALESCE(VALUES(photo_path), photo_path),
+             phone=VALUES(phone), mobile=VALUES(mobile), website=VALUES(website), ' . $photoUpdateSql . ',
              birth_date=VALUES(birth_date), biography=VALUES(biography), business_name=VALUES(business_name), tax_id=VALUES(tax_id),
              business_address=VALUES(business_address), exterior_number=VALUES(exterior_number), neighborhood=VALUES(neighborhood),
              municipality=VALUES(municipality), postal_code=VALUES(postal_code), cfdi_use=VALUES(cfdi_use), payment_method=VALUES(payment_method),

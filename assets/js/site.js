@@ -225,7 +225,55 @@ document.querySelectorAll('[data-credential-qr]').forEach((qr) => {
     }
 });
 
-document.querySelector('[data-print-credential]')?.addEventListener('click', () => window.print());
+const credentialDownload = document.querySelector('[data-download-credential]');
+if (credentialDownload) {
+    credentialDownload.addEventListener('click', async () => {
+        const credential = document.querySelector('#digital-credential');
+        const status = document.querySelector('[data-credential-download-status]');
+        if (!credential || typeof window.html2canvas !== 'function') {
+            if (status) status.textContent = 'No fue posible cargar el generador. Recarga la página e inténtalo nuevamente.';
+            return;
+        }
+        credentialDownload.disabled = true;
+        if (status) status.textContent = 'Preparando la credencial…';
+        try {
+            await Promise.all(Array.from(credential.querySelectorAll('img')).map((image) => image.complete
+                ? Promise.resolve()
+                : new Promise((resolve) => { image.addEventListener('load', resolve, { once: true }); image.addEventListener('error', resolve, { once: true }); })));
+            const canvas = await window.html2canvas(credential, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+            const link = document.createElement('a');
+            link.download = credentialDownload.dataset.downloadName || 'credencial-amuvie.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            if (status) status.textContent = 'Credencial descargada correctamente.';
+        } catch (error) {
+            if (status) status.textContent = 'No fue posible descargar la credencial. Inténtalo nuevamente.';
+        } finally {
+            credentialDownload.disabled = false;
+        }
+    });
+}
+
+const profilePhotoEditor = document.querySelector('[data-profile-photo-editor]');
+if (profilePhotoEditor) {
+    const input = profilePhotoEditor.querySelector('[data-profile-photo-input]');
+    const preview = profilePhotoEditor.querySelector('[data-profile-photo-preview]');
+    const placeholder = profilePhotoEditor.querySelector('[data-profile-photo-placeholder]');
+    const remove = profilePhotoEditor.querySelector('[data-remove-profile-photo]');
+    input?.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('is-hidden');
+        placeholder?.classList.add('is-hidden');
+        if (remove) remove.checked = false;
+    });
+    remove?.addEventListener('change', () => {
+        preview.classList.toggle('is-hidden', remove.checked);
+        placeholder?.classList.toggle('is-hidden', !remove.checked);
+        if (remove.checked && input) input.value = '';
+    });
+}
 
 const librarySearch = document.querySelector('[data-library-search]');
 if (librarySearch) {

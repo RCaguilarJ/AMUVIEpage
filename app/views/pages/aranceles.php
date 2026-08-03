@@ -7,7 +7,7 @@ $tariffMenu = [
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
 $services = ['Baja Tensión hasta 25 kW','Ampliación de Carga en kW','Capacidad de la Subestación en kVA','Gasolineras o Lugares de atención a la salud'];
-$ranges = ['0 a 25 km','26 a 50 km','51 a 100 km','101 a 200 km','Más de 200 km'];
+$ranges = ['0–40 km', '41–150 km', '151–300 km', '301–más km'];
 ?>
 <header class="member-topbar"><div><i class="fas fa-user-tie"></i> Bienvenido de nuevo, <?= $safe($sessionUser['full_name'] ?: $sessionUser['username']) ?></div><form method="post"><input type="hidden" name="csrf_token" value="<?= $safe($_SESSION['csrf_token']) ?>"><input type="hidden" name="action" value="logout"><button type="submit"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button></form><time class="member-clock" data-member-clock><?= date('H : i : s') ?></time></header>
 <div class="member-shell tariff-shell">
@@ -17,7 +17,7 @@ $ranges = ['0 a 25 km','26 a 50 km','51 a 100 km','101 a 200 km','Más de 200 km
             <h1>Arancel Mínimo Profesional Sugerido</h1>
             <h2>Selecciona una opción</h2>
             <fieldset class="tariff-services"><legend class="sr-only">Tipo de servicio</legend><?php foreach ($services as $service): ?><label><input type="radio" name="tariff_service" value="<?= $safe($service) ?>"> <?= $safe($service) ?></label><?php endforeach; ?></fieldset>
-            <div class="tariff-distance"><h2>CARGOS POR DISTANCIAS</h2><label for="tariff-range">Selecciona un rango <b>*</b></label><select id="tariff-range" data-tariff-range><option value="">Selecciona una opción</option><?php foreach ($ranges as $range): ?><option value="<?= $safe($range) ?>"><?= $safe($range) ?></option><?php endforeach; ?></select></div>
+            <div class="tariff-distance"><h2>CARGOS POR DISTANCIAS</h2><label for="tariff-range">Selecciona un Rango <b>*</b></label><select id="tariff-range" data-tariff-range required><option value="" selected disabled></option><?php foreach ($ranges as $range): ?><option value="<?= $safe($range) ?>"><?= $safe($range) ?></option><?php endforeach; ?></select></div>
             <div class="tariff-summary" data-tariff-summary hidden><img src="<?= $safe(site_url('assets/images/logoamuvieblanco.png')) ?>" alt="AMUVIE"><h2>Consulta de arancel sugerido</h2><p><strong>Asociado:</strong> <?= $safe($sessionUser['full_name'] ?: $sessionUser['username']) ?></p><p><strong>Servicio:</strong> <span data-summary-service></span></p><p><strong>Distancia:</strong> <span data-summary-range></span></p><small>Documento de consulta. Los importes deben confirmarse contra el arancel SENER vigente.</small></div>
             <div class="tariff-download"><h2>Descargar Aranceles<br>SENER:</h2><button type="button" data-download-tariff disabled><i class="fas fa-download"></i> Descargar Ahora</button></div>
             <p class="tariff-notice"><i class="fas fa-info-circle"></i> El repositorio actual no contiene una tabla oficial de importes. Esta herramienta prepara la selección para consulta y no sustituye el arancel SENER vigente.</p>

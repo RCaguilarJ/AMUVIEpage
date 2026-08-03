@@ -48,7 +48,8 @@ $safe = static fn(mixed $text): string => htmlspecialchars((string) $text, ENT_Q
                 <strong>PATROCINADORES OFICIALES</strong><img src="<?= $safe(site_url('assets/images/logo-ema.png')) ?>" alt="ema"><img src="<?= $safe(site_url('assets/images/logo-ance.png')) ?>" alt="ANCE">
             </div>
         </article>
-        <button class="credential-download" type="button" data-print-credential><i class="fas fa-download"></i> Descargar Credencial</button>
+        <button class="credential-download" type="button" data-download-credential data-download-name="credencial-amuvie-<?= $safe($sessionUser['username']) ?>.png"><i class="fas fa-download"></i> Descargar Credencial</button>
+        <p class="credential-download-status" data-credential-download-status role="status" aria-live="polite"></p>
         <p class="credential-help">La credencial utiliza automáticamente la información y fotografía guardadas en “Mi perfil”.</p>
         <footer class="member-footer">Copyright © <?= date('Y') ?> Asociación Mexicana de Unidades de Verificación, Inspección y Estandarización AC.</footer>
     </main>
