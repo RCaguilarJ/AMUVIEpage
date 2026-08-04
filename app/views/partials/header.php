@@ -110,10 +110,10 @@
 
 <?php if (empty($isMemberView)): ?>
 <aside class="partner-rail" aria-label="Patrocinadores">
-    <a href="#" aria-label="ANCE">
+    <a href="https://www.anceestandares.org.mx/" target="_blank" rel="noopener noreferrer" aria-label="Visitar ANCE Estándares">
         <img src="<?= htmlspecialchars(site_url('assets/images/logo-ance.png'), ENT_QUOTES, 'UTF-8') ?>" alt="ANCE">
     </a>
-    <a href="#" aria-label="ema">
+    <a href="https://www.ema.org.mx/portal_v3/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Entidad Mexicana de Acreditación">
         <img src="<?= htmlspecialchars(site_url('assets/images/logo-ema.png'), ENT_QUOTES, 'UTF-8') ?>" alt="ema">
     </a>
 </aside>
