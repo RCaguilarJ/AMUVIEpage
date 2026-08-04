@@ -6,6 +6,9 @@ $commentMenu = [
     ['fa-file','Documentos Consejo Directivo','documentos-consejo-directivo/'], ['fa-check-square','Solicitud de Formatos/Portadas','solicitud-formatos-portadas/'],
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $commentMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $albercas = ['Comentario Gradiente de Potencial','COMENTARIO PUENTE DE UNIÓN EQUIPOTENCIAL'];
 $articulo110 = ['Artículo, parte 1 110','Artículo, parte 2 110','COMENTARIO Sección 110-41 NUEVA','INTRODUCCIÓN 110'];
 $leftComments = ['ARTÍCULO 200','220-14 i) SALIDAS DE CONTACTOS','250-122 d) cable de tierra de motores','ARTÍCULO 100','Capítulo 1 general','COMENTARIO 300-3 c) 2) y 392-20','COMENTARIO 300-20 CORRIENTES INDUCIDAS EN ENVOLVENTES O CANALIZACIONES METÁLICAS','COMENTARIO 310-10-h','COMENTARIO 517-19 ÁREAS DE ATENCIÓN CRÍTICA','COMENTARIO ARTÍCULO 200','COMENTARIO ARTÍCULO 240-24 c), d), e), f)','COMENTARIO ARTÍCULO 690','COMENTARIO SECCIÓN 250-122 b)'];
@@ -13,6 +16,8 @@ $rightComments = ['COMENTARIO SECCIÓN 300-7 a) y b)','COMENTARIO SOBRE LOS INTE
 $poolDocuments = ['Aclaración 1, 2 Y 3 ANATOMÍA DE INSTALACIONES','ARTÍCULO 506 zonas 20, 21 y 22, Taller de carpintería','Comentario 110-14 a)','COMENTARIO SECCIÓN 300-3 a) y b)','SECCIÓN 501-15','SECCIÓN 250-24 b)','CORRIENTES INDUCIDAS EN ENVOLVENTES O CANALIZACIONES METÁLICAS','EQUIPOTENCIALES Y UNIÓN DE PLANOS EQUIPOTENCIALES EN EDIFICIOS AGRÍCOLAS','Bombas contra incendio, cálculos en profundidad','Listas de verificación, fundamentos NOM','ALBERCAS, FUENTES E INSTALACIONES SIMILARES AMUVIE','Lista de INSPECCIÓN 1 Albercas permanentes. Inspección inicial antes del vertido de hormigón o entierro','Lista de INSPECCIÓN 2 - PARTE B Albercas permanentes. Inspecciones intermedias y finales','Lista de INSPECCIÓN 3 - PARTE C Albercas desmontables, jacuzzis desmontables y bañeras térmicas desmontables','Lista de INSPECCIÓN 4 - PARTE D Albercas y tinas de hidromasaje. Todas las instalaciones','Lista de INSPECCIÓN 5 - PARTE D Albercas y tinas de hidromasaje. Solo instalaciones interiores','Lista de INSPECCIÓN 6 - PARTE E Fuentes','Lista de INSPECCIÓN 7 - PARTE F Albercas y tinas para uso terapéutico','Lista de INSPECCIÓN 8 - PARTE G Tinas de hidromasaje','Lista de INSPECCIÓN 9 - PARTE H Sillas salvaescaleras eléctricas para alberca'];
 $nomFiles = require __DIR__ . '/../../data/nom-document-files.php';
 $nomFileIndex = 0;
+require_once dirname(__DIR__, 2) . '/documents.php';
+$managedNomDocuments = publishedDocuments('comentarios-nom');
 $renderList = static function (array $items) use ($safe, $nomFiles, &$nomFileIndex): void {
     echo '<ul class="nom-list">';
     foreach ($items as $item) {
@@ -31,6 +36,7 @@ $renderList = static function (array $items) use ($safe, $nomFiles, &$nomFileInd
         <section class="nom-featured"><div><h2>ALBERCAS</h2><?php $renderList($albercas); ?></div><div><h2>ARTÍCULO 110</h2><?php $renderList($articulo110); ?></div></section>
         <section class="nom-columns"><div><?php $renderList($leftComments); ?></div><div><?php $renderList($rightComments); ?></div></section>
         <section class="nom-pool-documents"><?php $renderList($poolDocuments); ?></section>
+        <?php if ($managedNomDocuments): ?><section class="nom-pool-documents"><h2>DOCUMENTOS AGREGADOS</h2><ul class="nom-list"><?php foreach ($managedNomDocuments as $document): ?><li><a href="<?= $safe(site_url($document['stored_path'])) ?>" download><?= $safe($document['title']) ?></a></li><?php endforeach; ?></ul></section><?php endif; ?>
         <footer class="member-footer">Copyright © <?= date('Y') ?> Asociación Mexicana de Unidades de Verificación, Inspección y Estandarización AC.</footer>
     </main>
 </div>

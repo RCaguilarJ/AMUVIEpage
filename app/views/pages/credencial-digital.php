@@ -7,6 +7,9 @@ $credentialMenu = [
     ['fa-file', 'Documentos Consejo Directivo', 'documentos-consejo-directivo/'], ['fa-check-square', 'Solicitud de Formatos/Portadas', 'solicitud-formatos-portadas/'],
     ['fa-users', 'Directorio de Asociados Extendido', 'directorio-asociados-extendido/'], ['fa-cog', 'Aranceles', 'aranceles/'], ['fa-envelope', 'Enviar Mensaje', 'enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $credentialMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $safe = static fn(mixed $text): string => htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
 ?>
 <header class="member-topbar">

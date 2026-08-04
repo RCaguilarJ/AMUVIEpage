@@ -27,6 +27,7 @@ return [
         'directorio-asociados-extendido' => 'Directorio de Asociados Extendido',
         'aranceles' => 'Aranceles',
         'enviar-mensaje' => 'Enviar mensaje',
+        'administracion' => 'Administración del Portal',
         'afiliate' => 'Afíliate',
         'formatos-de-portada' => 'Formatos de Portada',
         'capacitacion' => 'Capacitaciones / Eventos',

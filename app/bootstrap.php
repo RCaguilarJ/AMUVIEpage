@@ -68,7 +68,7 @@ if ($vista === 'portal-amuvie' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POS
                     'UPDATE users SET last_login_at = NOW() WHERE id = :id'
                 );
                 $statement->execute(['id' => $authenticatedUser['id']]);
-                header('Location: ' . site_url('mi-perfil/'));
+                header('Location: ' . site_url(in_array('administrador', $authenticatedUser['roles'], true) ? 'administracion/' : 'mi-perfil/'));
                 exit;
             }
         } catch (PDOException $exception) {
@@ -106,13 +106,179 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '')
     }
 }
 
-$memberViews = ['mi-perfil', 'credencial-digital', 'comentarios-de-la-nom', 'biblioteca-de-documentos', 'documentos-consejo-directivo', 'solicitud-formatos-portadas', 'directorio-asociados-extendido', 'aranceles', 'enviar-mensaje'];
+$memberViews = ['mi-perfil', 'credencial-digital', 'comentarios-de-la-nom', 'biblioteca-de-documentos', 'documentos-consejo-directivo', 'solicitud-formatos-portadas', 'directorio-asociados-extendido', 'aranceles', 'enviar-mensaje', 'administracion'];
 if (in_array($vista, $memberViews, true)) {
     require_once __DIR__ . '/profile.php';
     $sessionUser = currentUser();
     if ($sessionUser === null) {
         header('Location: ' . site_url('portal-amuvie/'));
         exit;
+    }
+
+    if ($vista === 'administracion') {
+        if (!userHasRole('administrador')) {
+            http_response_code(403);
+            header('Location: ' . site_url('mi-perfil/'));
+            exit;
+        }
+
+        require_once __DIR__ . '/admin.php';
+        $adminError = null;
+        $adminSuccess = null;
+        $adminSection = is_string($_GET['seccion'] ?? null) ? $_GET['seccion'] : 'dashboard';
+        $allowedAdminSections = ['dashboard', 'usuarios', 'documentos', 'solicitudes', 'mensajes', 'auditoria'];
+        if (!in_array($adminSection, $allowedAdminSections, true)) $adminSection = 'dashboard';
+
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '') !== 'logout') {
+            $submittedToken = $_POST['csrf_token'] ?? '';
+            if (!is_string($submittedToken) || !hash_equals($_SESSION['csrf_token'], $submittedToken)) {
+                $adminError = 'La sesión del formulario expiró. Recarga la página.';
+            } else {
+                $action = is_string($_POST['action'] ?? null) ? $_POST['action'] : '';
+                try {
+                    if ($action === 'change_own_password') {
+                        $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
+                        adminChangeOwnPassword((int) $sessionUser['id'], $password);
+                        $_SESSION['user']['must_change_password'] = false;
+                        adminLog((int) $sessionUser['id'], 'cambiar_password', 'user', (int) $sessionUser['id']);
+                        $adminSuccess = 'Contraseña administrativa actualizada.';
+                    } elseif ($action === 'create_user') {
+                        $userData = [];
+                        foreach (['username','email','password','full_name','role'] as $field) $userData[$field] = trim(is_string($_POST[$field] ?? null) ? $_POST[$field] : '');
+                        $newUserId = adminCreateUser($userData);
+                        adminLog((int) $sessionUser['id'], 'crear', 'user', $newUserId, ['username'=>$userData['username'], 'role'=>$userData['role']]);
+                        $adminSuccess = 'Usuario creado correctamente.';
+                    } elseif ($action === 'user_status') {
+                        $targetId = (int) ($_POST['user_id'] ?? 0);
+                        $status = is_string($_POST['status'] ?? null) ? $_POST['status'] : '';
+                        adminSetUserStatus($targetId, $status, (int) $sessionUser['id']);
+                        adminLog((int) $sessionUser['id'], 'cambiar_estado', 'user', $targetId, ['status'=>$status]);
+                        $adminSuccess = 'Estado del usuario actualizado.';
+                    } elseif ($action === 'update_user') {
+                        $targetId = (int) ($_POST['user_id'] ?? 0);
+                        $email = is_string($_POST['email'] ?? null) ? $_POST['email'] : '';
+                        $fullName = is_string($_POST['full_name'] ?? null) ? $_POST['full_name'] : '';
+                        $role = is_string($_POST['role'] ?? null) ? $_POST['role'] : 'usuario';
+                        adminUpdateUser($targetId, $email, $fullName, $role);
+                        adminLog((int) $sessionUser['id'], 'editar', 'user', $targetId, ['role'=>$role]);
+                        $adminSuccess = 'Datos del usuario actualizados.';
+                    } elseif ($action === 'reset_password') {
+                        $targetId = (int) ($_POST['user_id'] ?? 0);
+                        $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
+                        adminResetPassword($targetId, $password);
+                        adminLog((int) $sessionUser['id'], 'restablecer_password', 'user', $targetId);
+                        $adminSuccess = 'Contraseña temporal asignada.';
+                    } elseif ($action === 'upload_document') {
+                        $title = trim(is_string($_POST['title'] ?? null) ? $_POST['title'] : '');
+                        $description = trim(is_string($_POST['description'] ?? null) ? $_POST['description'] : '');
+                        $categoryId = (int) ($_POST['category_id'] ?? 0);
+                        $upload = $_FILES['document'] ?? null;
+                        if ($title === '' || $categoryId <= 0 || !is_array($upload) || ($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new InvalidArgumentException('Completa el título, categoría y archivo.');
+                        $size = (int) ($upload['size'] ?? 0);
+                        if ($size <= 0 || $size > 20 * 1024 * 1024) throw new InvalidArgumentException('El archivo debe pesar como máximo 20 MB.');
+                        $originalName = basename((string) ($upload['name'] ?? ''));
+                        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+                        $allowedExtensions = ['pdf','doc','docx','xls','xlsx'];
+                        if (!in_array($extension, $allowedExtensions, true)) throw new InvalidArgumentException('Solo se permiten PDF, DOC, DOCX, XLS y XLSX.');
+                        $mime = (new finfo(FILEINFO_MIME_TYPE))->file((string) $upload['tmp_name']);
+                        $allowedMimes = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/zip','application/octet-stream'];
+                        if (!in_array($mime, $allowedMimes, true)) throw new InvalidArgumentException('El contenido del archivo no corresponde a un formato permitido.');
+                        $uploadDirectory = dirname(__DIR__) . '/assets/uploads/documents';
+                        if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0755, true);
+                        $filename = bin2hex(random_bytes(16)) . '.' . $extension;
+                        $relativePath = 'assets/uploads/documents/' . $filename;
+                        if (!move_uploaded_file((string) $upload['tmp_name'], $uploadDirectory . '/' . $filename)) throw new RuntimeException('No fue posible guardar el archivo.');
+                        try {
+                            $statement = database()->prepare('INSERT INTO documents (category_id,title,description,original_name,stored_path,mime_type,file_size,uploaded_by) VALUES (:category_id,:title,:description,:original_name,:stored_path,:mime_type,:file_size,:uploaded_by)');
+                            $statement->execute(['category_id'=>$categoryId,'title'=>$title,'description'=>$description ?: null,'original_name'=>$originalName,'stored_path'=>$relativePath,'mime_type'=>$mime,'file_size'=>$size,'uploaded_by'=>$sessionUser['id']]);
+                            $documentId = (int) database()->lastInsertId();
+                            adminLog((int) $sessionUser['id'], 'subir', 'document', $documentId, ['title'=>$title]);
+                            $adminSuccess = 'Documento subido correctamente.';
+                        } catch (Throwable $exception) {
+                            @unlink($uploadDirectory . '/' . $filename);
+                            throw $exception;
+                        }
+                    } elseif ($action === 'document_status') {
+                        $documentId = (int) ($_POST['document_id'] ?? 0);
+                        $status = ($_POST['status'] ?? '') === 'activo' ? 'activo' : 'inactivo';
+                        $statement = database()->prepare('UPDATE documents SET status=:status WHERE id=:id');
+                        $statement->execute(['status'=>$status,'id'=>$documentId]);
+                        adminLog((int) $sessionUser['id'], 'cambiar_estado', 'document', $documentId, ['status'=>$status]);
+                        $adminSuccess = 'Estado del documento actualizado.';
+                    } elseif ($action === 'update_document') {
+                        $documentId = (int) ($_POST['document_id'] ?? 0);
+                        $title = trim(is_string($_POST['title'] ?? null) ? $_POST['title'] : '');
+                        $description = trim(is_string($_POST['description'] ?? null) ? $_POST['description'] : '');
+                        $categoryId = (int) ($_POST['category_id'] ?? 0);
+                        if ($documentId <= 0 || $title === '' || $categoryId <= 0) throw new InvalidArgumentException('Completa los datos del documento.');
+                        $statement = database()->prepare('UPDATE documents SET title=:title, description=:description, category_id=:category_id WHERE id=:id');
+                        $statement->execute(['title'=>$title,'description'=>$description ?: null,'category_id'=>$categoryId,'id'=>$documentId]);
+                        adminLog((int) $sessionUser['id'], 'editar', 'document', $documentId, ['title'=>$title]);
+                        $adminSuccess = 'Documento actualizado.';
+                    } elseif ($action === 'replace_document') {
+                        $documentId = (int) ($_POST['document_id'] ?? 0);
+                        $upload = $_FILES['document'] ?? null;
+                        if ($documentId <= 0 || !is_array($upload) || ($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new InvalidArgumentException('Selecciona el archivo de reemplazo.');
+                        $size = (int) ($upload['size'] ?? 0);
+                        if ($size <= 0 || $size > 20 * 1024 * 1024) throw new InvalidArgumentException('El archivo debe pesar como máximo 20 MB.');
+                        $originalName = basename((string) ($upload['name'] ?? ''));
+                        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+                        if (!in_array($extension, ['pdf','doc','docx','xls','xlsx'], true)) throw new InvalidArgumentException('Solo se permiten PDF, DOC, DOCX, XLS y XLSX.');
+                        $mime = (new finfo(FILEINFO_MIME_TYPE))->file((string) $upload['tmp_name']);
+                        $allowedMimes = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/zip','application/octet-stream'];
+                        if (!in_array($mime, $allowedMimes, true)) throw new InvalidArgumentException('El contenido no corresponde a un formato permitido.');
+                        $find = database()->prepare('SELECT stored_path FROM documents WHERE id=:id');
+                        $find->execute(['id'=>$documentId]);
+                        $oldPath = $find->fetchColumn();
+                        if (!$oldPath) throw new DomainException('El documento no existe.');
+                        $uploadDirectory = dirname(__DIR__) . '/assets/uploads/documents';
+                        if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0755, true);
+                        $filename = bin2hex(random_bytes(16)) . '.' . $extension;
+                        $relativePath = 'assets/uploads/documents/' . $filename;
+                        if (!move_uploaded_file((string) $upload['tmp_name'], $uploadDirectory . '/' . $filename)) throw new RuntimeException('No fue posible guardar el reemplazo.');
+                        try {
+                            $statement = database()->prepare('UPDATE documents SET original_name=:original_name, stored_path=:stored_path, mime_type=:mime_type, file_size=:file_size WHERE id=:id');
+                            $statement->execute(['original_name'=>$originalName,'stored_path'=>$relativePath,'mime_type'=>$mime,'file_size'=>$size,'id'=>$documentId]);
+                            $oldFile = dirname(__DIR__) . '/' . ltrim((string) $oldPath, '/');
+                            if (is_file($oldFile)) @unlink($oldFile);
+                            adminLog((int) $sessionUser['id'], 'reemplazar', 'document', $documentId, ['original_name'=>$originalName]);
+                            $adminSuccess = 'Archivo reemplazado correctamente.';
+                        } catch (Throwable $exception) {
+                            @unlink($uploadDirectory . '/' . $filename);
+                            throw $exception;
+                        }
+                    } elseif ($action === 'request_status') {
+                        $requestId = (int) ($_POST['request_id'] ?? 0);
+                        $status = is_string($_POST['status'] ?? null) ? $_POST['status'] : '';
+                        if (!in_array($status, ['recibida','en_revision','atendida','cancelada'], true)) throw new InvalidArgumentException('Estado no válido.');
+                        $statement = database()->prepare('UPDATE format_requests SET status=:status WHERE id=:id');
+                        $statement->execute(['status'=>$status,'id'=>$requestId]);
+                        adminLog((int) $sessionUser['id'], 'cambiar_estado', 'format_request', $requestId, ['status'=>$status]);
+                        $adminSuccess = 'Solicitud actualizada.';
+                    } elseif ($action === 'message_status') {
+                        $messageId = (int) ($_POST['message_id'] ?? 0);
+                        $status = is_string($_POST['status'] ?? null) ? $_POST['status'] : '';
+                        if (!in_array($status, ['recibido','en_revision','respondido','cerrado'], true)) throw new InvalidArgumentException('Estado no válido.');
+                        $statement = database()->prepare('UPDATE member_messages SET status=:status WHERE id=:id');
+                        $statement->execute(['status'=>$status,'id'=>$messageId]);
+                        adminLog((int) $sessionUser['id'], 'cambiar_estado', 'member_message', $messageId, ['status'=>$status]);
+                        $adminSuccess = 'Mensaje actualizado.';
+                    }
+                } catch (Throwable $exception) {
+                    $adminError = $exception instanceof PDOException && (string) $exception->getCode() === '23000'
+                        ? 'El usuario, correo o registro ya existe.'
+                        : $exception->getMessage();
+                }
+            }
+        }
+
+        $adminCounts = adminDashboardCounts();
+        $adminUsers = listUsers();
+        $adminCategories = adminListCategories();
+        $adminDocuments = adminListDocuments();
+        $adminRequests = adminListRequests();
+        $adminMessages = adminListMessages();
+        $adminActivity = adminListActivity();
     }
 
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '') === 'logout') {

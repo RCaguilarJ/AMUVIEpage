@@ -6,7 +6,7 @@ require_once __DIR__ . '/database.php';
 function findUserByLogin(string $login): ?array
 {
     $statement = database()->prepare(
-        'SELECT u.id, u.username, u.email, u.password_hash, u.full_name, u.status,
+        'SELECT u.id, u.username, u.email, u.password_hash, u.full_name, u.status, u.must_change_password,
                 GROUP_CONCAT(r.name ORDER BY r.name SEPARATOR ",") AS roles
          FROM users u
          LEFT JOIN user_roles ur ON ur.user_id = u.id
@@ -119,6 +119,7 @@ function loginUser(array $user): void
         'email' => $user['email'],
         'full_name' => $user['full_name'],
         'roles' => $user['roles'],
+        'must_change_password' => (bool) ($user['must_change_password'] ?? false),
     ];
 }
 

@@ -6,8 +6,13 @@ $tariffMenu = [
     ['fa-file','Documentos Consejo Directivo','documentos-consejo-directivo/'], ['fa-check-square','Solicitud de Formatos/Portadas','solicitud-formatos-portadas/'],
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $tariffMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $services = ['Baja Tensión hasta 25 kW','Ampliación de Carga en kW','Capacidad de la Subestación en kVA','Gasolineras o Lugares de atención a la salud'];
 $ranges = ['0–40 km', '41–150 km', '151–300 km', '301–más km'];
+require_once dirname(__DIR__, 2) . '/documents.php';
+$managedTariffs = publishedDocuments('aranceles');
 ?>
 <header class="member-topbar"><div><i class="fas fa-user-tie"></i> Bienvenido de nuevo, <?= $safe($sessionUser['full_name'] ?: $sessionUser['username']) ?></div><form method="post"><input type="hidden" name="csrf_token" value="<?= $safe($_SESSION['csrf_token']) ?>"><input type="hidden" name="action" value="logout"><button type="submit"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button></form><time class="member-clock" data-member-clock><?= date('H : i : s') ?></time></header>
 <div class="member-shell tariff-shell">
@@ -21,6 +26,7 @@ $ranges = ['0–40 km', '41–150 km', '151–300 km', '301–más km'];
             <div class="tariff-summary" data-tariff-summary hidden><img src="<?= $safe(site_url('assets/images/logoamuvieblanco.png')) ?>" alt="AMUVIE"><h2>Consulta de arancel sugerido</h2><p><strong>Asociado:</strong> <?= $safe($sessionUser['full_name'] ?: $sessionUser['username']) ?></p><p><strong>Servicio:</strong> <span data-summary-service></span></p><p><strong>Distancia:</strong> <span data-summary-range></span></p><small>Documento de consulta. Los importes deben confirmarse contra el arancel SENER vigente.</small></div>
             <div class="tariff-download"><h2>Descargar Aranceles<br>SENER:</h2><button type="button" data-download-tariff disabled><i class="fas fa-download"></i> Descargar Ahora</button></div>
             <p class="tariff-notice"><i class="fas fa-info-circle"></i> El repositorio actual no contiene una tabla oficial de importes. Esta herramienta prepara la selección para consulta y no sustituye el arancel SENER vigente.</p>
+            <?php if ($managedTariffs): ?><section class="admin-card"><h2>Documentos de aranceles vigentes</h2><ul><?php foreach ($managedTariffs as $document): ?><li><a href="<?= $safe(site_url($document['stored_path'])) ?>" download><?= $safe($document['title']) ?></a></li><?php endforeach; ?></ul></section><?php endif; ?>
         </section>
         <footer class="member-footer">Copyright © <?= date('Y') ?> Asociación Mexicana de Unidades de Verificación, Inspección y Estandarización AC.</footer>
     </main>

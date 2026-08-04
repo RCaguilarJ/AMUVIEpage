@@ -6,6 +6,9 @@ $directoryMenu = [
     ['fa-file','Documentos Consejo Directivo','documentos-consejo-directivo/'], ['fa-check-square','Solicitud de Formatos/Portadas','solicitud-formatos-portadas/'],
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $directoryMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $associates = require dirname(__DIR__, 2) . '/data/associates.php';
 $avatarColors = ['#275d79','#6e8146','#a75f38','#6d5590','#3f7d6b','#9a4756'];
 ?>

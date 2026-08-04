@@ -6,6 +6,9 @@ $councilMenu = [
     ['fa-file','Documentos Consejo Directivo','documentos-consejo-directivo/'], ['fa-check-square','Solicitud de Formatos/Portadas','solicitud-formatos-portadas/'],
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $councilMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $councils = [
     ['3.er Consejo Directivo 2018 - 2020', 'tercer-consejo'],
     ['4.º Consejo Directivo 2020 - 2022', 'cuarto-consejo'],
@@ -16,6 +19,8 @@ $actsRight = ['ACTA CONSTITUTIVA 2022','ACTA ASAMBLEA 08 JULIO 2015','ACTA ASAMB
 $precursorsLeft = ['RESUMEN DE CONCLUSIONES - CONCENTRADO RNUV 2013','M1','M2','M3','M4'];
 $precursorsRight = ['M5','M6','M7','M8','M9'];
 $libraryUrl = site_url('biblioteca-de-documentos/');
+require_once dirname(__DIR__, 2) . '/documents.php';
+$managedCouncilDocuments = publishedDocuments('consejo-directivo');
 $renderCouncilList = static function (array $items) use ($safe, $libraryUrl): void {
     echo '<ul class="council-list">';
     foreach ($items as $item) echo '<li><a href="' . $safe($libraryUrl) . '">' . $safe($item) . '</a></li>';
@@ -32,6 +37,7 @@ $renderCouncilList = static function (array $items) use ($safe, $libraryUrl): vo
         </section>
         <section class="council-section" id="actas-estatutos"><h2>Actas y Estatutos</h2><div class="council-columns"><div id="tercer-consejo"><?php $renderCouncilList($actsLeft); ?></div><div id="cuarto-consejo"><?php $renderCouncilList($actsRight); ?></div></div><span id="quinto-consejo"></span></section>
         <section class="council-section council-precursors"><h2>Documentos precursores de AMUVIE</h2><div class="council-columns"><div><?php $renderCouncilList($precursorsLeft); ?></div><div><?php $renderCouncilList($precursorsRight); ?></div></div></section>
+        <?php if ($managedCouncilDocuments): ?><section class="council-section"><h2>Documentos agregados</h2><ul class="council-list"><?php foreach ($managedCouncilDocuments as $document): ?><li><a href="<?= $safe(site_url($document['stored_path'])) ?>" download><?= $safe($document['title']) ?></a></li><?php endforeach; ?></ul></section><?php endif; ?>
         <p class="council-note"><i class="fas fa-info-circle"></i> Los documentos disponibles se consultan desde la Biblioteca de Documentos.</p>
         <footer class="member-footer">Copyright © <?= date('Y') ?> Asociación Mexicana de Unidades de Verificación, Inspección y Estandarización AC.</footer>
     </main>

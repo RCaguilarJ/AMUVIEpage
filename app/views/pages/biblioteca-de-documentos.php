@@ -6,7 +6,14 @@ $libraryMenu = [
     ['fa-file','Documentos Consejo Directivo','documentos-consejo-directivo/'], ['fa-check-square','Solicitud de Formatos/Portadas','solicitud-formatos-portadas/'],
     ['fa-users','Directorio de Asociados Extendido','directorio-asociados-extendido/'], ['fa-cog','Aranceles','aranceles/'], ['fa-envelope','Enviar Mensaje','enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $libraryMenu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 $documents = [];
+require_once dirname(__DIR__, 2) . '/documents.php';
+foreach (publishedDocuments('biblioteca') as $document) {
+    $documents[] = ['title' => $document['title'], 'code' => 'Documento administrado', 'path' => $document['stored_path']];
+}
 foreach ((require dirname(__DIR__, 2) . '/data/information-documents.php') as $document) {
     $relativePath = 'assets/documents/informacion/' . $document['file'];
     if (is_file(dirname(__DIR__, 3) . '/' . $relativePath)) {

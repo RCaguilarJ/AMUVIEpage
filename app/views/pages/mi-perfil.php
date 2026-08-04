@@ -6,6 +6,9 @@ $menu = [
     ['fa-check-square', 'Solicitud de Formatos/Portadas', 'solicitud-formatos-portadas/'], ['fa-users', 'Directorio de Asociados Extendido', 'directorio-asociados-extendido/'],
     ['fa-cog', 'Aranceles', 'aranceles/'], ['fa-envelope', 'Enviar Mensaje', 'enviar-mensaje/'],
 ];
+if (in_array('administrador', $sessionUser['roles'] ?? [], true)) {
+    $menu[] = ['fa-arrow-left', 'Regresar al panel administrativo', 'administracion/'];
+}
 ?>
 <header class="member-topbar">
     <div><i class="fas fa-user-tie"></i> Bienvenido de nuevo, <?= htmlspecialchars($sessionUser['full_name'] ?: $sessionUser['username'], ENT_QUOTES, 'UTF-8') ?></div>

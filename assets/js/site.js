@@ -177,27 +177,6 @@ if (standalonePasswordInput && standalonePasswordToggle) {
     });
 }
 
-const accessPageForm = document.querySelector('[data-access-form]');
-
-if (accessPageForm) {
-    const passwordInput = accessPageForm.querySelector('[data-password-input]');
-    const passwordToggle = accessPageForm.querySelector('[data-password-toggle]');
-
-    passwordToggle?.addEventListener('click', () => {
-        if (!passwordInput) return;
-        const willShowPassword = passwordInput.type === 'password';
-        passwordInput.type = willShowPassword ? 'text' : 'password';
-        passwordToggle.setAttribute('aria-pressed', String(willShowPassword));
-        passwordToggle.setAttribute(
-            'aria-label',
-            willShowPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-        );
-        passwordToggle.querySelector('i')?.classList.toggle('fa-eye', !willShowPassword);
-        passwordToggle.querySelector('i')?.classList.toggle('fa-eye-slash', willShowPassword);
-    });
-
-}
-
 const memberClock = document.querySelector('[data-member-clock]');
 if (memberClock) {
     const updateMemberClock = () => {
