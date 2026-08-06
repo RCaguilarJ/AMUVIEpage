@@ -24,6 +24,8 @@ body.menu-open {
     overflow: hidden;
 }
 
+body.member-menu-open { overflow: hidden; }
+
 img {
     max-width: 100%;
 }
@@ -140,6 +142,8 @@ img {
 .amuvie-private-logout { width: 100%; justify-self: stretch; display: flex; justify-content: center; }
 .amuvie-private-logout button { padding: 10px 22px; border: 0; border-radius: 3px; background: #fff; color: var(--amuvie-blue); font: 700 14px "Roboto Condensed", sans-serif; cursor: pointer; }
 .amuvie-private-clock { min-width: 0; justify-self: stretch; text-align: right; font: clamp(13px, 1.8vw, 25px) monospace; letter-spacing: clamp(0px, .2vw, 3px); white-space: nowrap; }
+.member-menu-toggle,
+.member-menu-backdrop { display: none; }
 
 @media (max-width: 700px) {
     .amuvie-topbar.amuvie-topbar--private { grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 58px; padding-inline: 8px; font-size: clamp(9px, 2.7vw, 13px); }
@@ -175,8 +179,10 @@ img {
     color: var(--amuvie-blue);
 }
 
-.amuvie-primary-nav a {
+.amuvie-primary-nav a,
+.amuvie-submenu-trigger {
     color: #0b2850;
+    font-family: inherit;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
@@ -207,12 +213,29 @@ img {
 }
 
 .amuvie-menu-toggle {
+    width: 48px;
+    height: 48px;
     display: none;
+    align-items: center;
+    justify-content: center;
     border: 0;
+    border-radius: 8px;
     background: transparent;
     color: var(--amuvie-blue);
     font-size: 25px;
 }
+
+.amuvie-menu-toggle:hover,
+.amuvie-menu-toggle:focus-visible { background: #eef5f8; }
+
+.amuvie-menu-toggle:focus-visible,
+.amuvie-submenu-trigger:focus-visible,
+.amuvie-primary-nav a:focus-visible {
+    outline: 3px solid #f0b429;
+    outline-offset: 2px;
+}
+
+.amuvie-menu-backdrop { display: none; }
 
 .amuvie-header-actions { display: flex; align-items: stretch; gap: 8px; flex: 0 0 auto; }
 .amuvie-header-actions .amuvie-login-button { min-width: 135px; padding-inline: 20px; }
@@ -798,6 +821,13 @@ img {
 
 .post-email__download span {
     white-space: nowrap;
+}
+
+.amuvie-submenu-trigger {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
 }
 
 .post-email__footer {
@@ -2399,7 +2429,61 @@ img {
     .member-topbar { position: static; padding: 10px 14px; }
     .member-topbar button { padding: 9px; }
     .member-shell { grid-template-columns: 1fr; }
-    .member-sidebar { display: none; }
+    .member-shell .member-sidebar {
+        position: fixed;
+        z-index: 50;
+        top: 58px;
+        bottom: 0;
+        left: 0;
+        width: min(84vw, 320px);
+        height: auto;
+        display: block;
+        overflow-y: auto;
+        visibility: hidden;
+        box-shadow: 8px 0 24px rgb(0 0 0 / 20%);
+        transform: translateX(-105%);
+        transition: transform .25s ease, visibility .25s ease;
+    }
+    .member-sidebar__logo { height: 112px; }
+    .member-sidebar__logo img { width: 78px; height: 78px; }
+    .member-sidebar nav { padding: 12px 0 28px; }
+    .member-sidebar nav a { min-height: 52px; justify-content: flex-start; padding: 12px 20px; }
+    .member-sidebar nav span { display: inline; }
+    .member-menu-open .member-sidebar { visibility: visible; transform: translateX(0); }
+
+    .amuvie-topbar.amuvie-topbar--private {
+        position: relative;
+        z-index: 60;
+        grid-template-columns: 48px minmax(0, 1fr) auto;
+        gap: 8px;
+    }
+    .amuvie-private-clock { display: none; }
+    .member-menu-toggle {
+        width: 44px;
+        height: 44px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid rgb(255 255 255 / 45%);
+        border-radius: 5px;
+        background: transparent;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .member-menu-toggle:focus-visible { outline: 3px solid #f0b429; outline-offset: 2px; }
+    .member-menu-backdrop {
+        position: fixed;
+        z-index: 45;
+        inset: 58px 0 0;
+        display: block;
+        visibility: hidden;
+        border: 0;
+        background: rgb(5 28 41 / 52%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+    .member-menu-open .member-menu-backdrop { visibility: visible; opacity: 1; pointer-events: auto; }
     .view-mi-perfil .profile-page { padding: 25px 16px 0; }
 }
 
@@ -2467,6 +2551,8 @@ img {
 .admin-actions { min-width: 320px; display: grid; gap: 8px; }
 .admin-actions form, .admin-inline-form { display: flex; align-items: center; gap: 6px; }
 .admin-actions input, .admin-actions select { min-width: 135px; }
+.admin-card .admin-danger-button { background: #b42318; }
+.admin-card .admin-danger-button:hover, .admin-card .admin-danger-button:focus-visible { background: #8f1c13; }
 .admin-status { padding: 4px 8px; display: inline-block; border-radius: 20px; background: #e7edf0; }
 .admin-status--activo { background: #e2f4e5; color: #267139; }
 .admin-status--inactivo, .admin-status--bloqueado { background: #f9e3e3; color: #9b2929; }
@@ -2825,6 +2911,25 @@ body.view-proveedores-asociados .partner-rail {
         transition: max-height .3s ease, opacity .2s ease, visibility .3s ease;
     }
 
+    .amuvie-menu-backdrop {
+        position: fixed;
+        z-index: 9;
+        inset: 0;
+        display: block;
+        visibility: hidden;
+        border: 0;
+        background: rgb(5 28 41 / 46%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease, visibility .2s ease;
+    }
+
+    .menu-open .amuvie-menu-backdrop {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     .menu-open .amuvie-primary-nav {
         max-height: calc(100vh - 138px);
         overflow-y: auto;
@@ -2841,11 +2946,23 @@ body.view-proveedores-asociados .partner-rail {
         gap: 0;
     }
 
-    .amuvie-primary-nav a {
+    .amuvie-primary-nav a,
+    .amuvie-submenu-trigger {
+        min-height: 48px;
         padding: 13px 4px;
-        display: block;
+        display: flex;
+        align-items: center;
         white-space: normal;
     }
+
+    .amuvie-submenu-trigger {
+        width: 100%;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .amuvie-submenu-trigger i { transition: transform .2s ease; }
+    .amuvie-primary-nav__item--submenu.is-open > .amuvie-submenu-trigger i { transform: rotate(180deg); }
 
     .amuvie-submenu {
         position: static;
@@ -2856,10 +2973,6 @@ body.view-proveedores-asociados .partner-rail {
         opacity: 1;
         box-shadow: none;
         transform: none;
-    }
-
-    .amuvie-primary-nav__item--submenu:focus-within .amuvie-submenu {
-        display: block;
     }
 
     .amuvie-primary-nav__item--submenu.is-open .amuvie-submenu {
@@ -2877,9 +2990,17 @@ body.view-proveedores-asociados .partner-rail {
 
     .amuvie-menu-toggle {
         margin-left: auto;
-        display: block;
+        display: inline-flex;
         cursor: pointer;
     }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .amuvie-primary-nav,
+    .amuvie-menu-backdrop,
+    .amuvie-submenu-trigger i,
+    .member-sidebar,
+    .member-menu-backdrop { transition: none; }
 }
 
 @media (max-width: 760px) {

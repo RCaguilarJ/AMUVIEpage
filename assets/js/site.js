@@ -6,7 +6,7 @@ submenuTriggers.forEach((trigger) => {
     trigger.addEventListener('click', (event) => {
         const href = trigger.getAttribute('href');
 
-        if (window.innerWidth > 1180 && href && href !== '#') {
+        if (window.innerWidth > 1180 && trigger.tagName === 'A' && href && !href.startsWith('#')) {
             return;
         }
 
@@ -41,6 +41,7 @@ document.addEventListener('click', (event) => {
 });
 
 if (menuToggle && primaryMenu) {
+    const menuBackdrop = document.querySelector('.amuvie-menu-backdrop');
     const closeMenu = () => {
         document.body.classList.remove('menu-open');
         document.querySelectorAll('.amuvie-primary-nav__item--submenu.is-open').forEach((item) => {
@@ -59,6 +60,19 @@ if (menuToggle && primaryMenu) {
         menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
         menuToggle.querySelector('i')?.classList.toggle('fa-bars', !isOpen);
         menuToggle.querySelector('i')?.classList.toggle('fa-times', isOpen);
+        if (isOpen) primaryMenu.querySelector('a, button')?.focus();
+    });
+
+    menuBackdrop?.addEventListener('click', () => {
+        closeMenu();
+        menuToggle.focus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && document.body.classList.contains('menu-open')) {
+            closeMenu();
+            menuToggle.focus();
+        }
     });
 
     primaryMenu.addEventListener('click', (event) => {
@@ -140,6 +154,49 @@ if (associatesSearch) {
             : `${visibleRows} asociados`;
     });
 }
+
+const memberMenuToggle = document.querySelector('.member-menu-toggle');
+const memberSidebar = document.querySelector('.member-sidebar');
+const memberMenuBackdrop = document.querySelector('.member-menu-backdrop');
+
+if (memberMenuToggle && memberSidebar) {
+    memberSidebar.id = 'member-navigation';
+
+    const closeMemberMenu = (restoreFocus = false) => {
+        document.body.classList.remove('member-menu-open');
+        memberMenuToggle.setAttribute('aria-expanded', 'false');
+        memberMenuToggle.setAttribute('aria-label', 'Abrir navegación del portal');
+        memberMenuToggle.querySelector('i')?.classList.add('fa-bars');
+        memberMenuToggle.querySelector('i')?.classList.remove('fa-times');
+        if (restoreFocus) memberMenuToggle.focus();
+    };
+
+    memberMenuToggle.addEventListener('click', () => {
+        const isOpen = document.body.classList.toggle('member-menu-open');
+        memberMenuToggle.setAttribute('aria-expanded', String(isOpen));
+        memberMenuToggle.setAttribute('aria-label', isOpen ? 'Cerrar navegación del portal' : 'Abrir navegación del portal');
+        memberMenuToggle.querySelector('i')?.classList.toggle('fa-bars', !isOpen);
+        memberMenuToggle.querySelector('i')?.classList.toggle('fa-times', isOpen);
+        if (isOpen) memberSidebar.querySelector('a')?.focus();
+    });
+
+    memberMenuBackdrop?.addEventListener('click', () => closeMemberMenu(true));
+    memberSidebar.addEventListener('click', (event) => {
+        if (event.target.closest('a') && window.innerWidth <= 540) closeMemberMenu();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && document.body.classList.contains('member-menu-open')) closeMemberMenu(true);
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 540) closeMemberMenu();
+    });
+}
+
+document.querySelectorAll('form[data-confirm]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+        if (!window.confirm(form.dataset.confirm || '¿Deseas continuar?')) event.preventDefault();
+    });
+});
 
 const contactPageForm = document.querySelector('[data-contact-form]');
 

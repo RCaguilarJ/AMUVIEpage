@@ -168,6 +168,11 @@ if (in_array($vista, $memberViews, true)) {
                         adminResetPassword($targetId, $password);
                         adminLog((int) $sessionUser['id'], 'restablecer_password', 'user', $targetId);
                         $adminSuccess = 'Contraseña temporal asignada.';
+                    } elseif ($action === 'delete_user') {
+                        $targetId = (int) ($_POST['user_id'] ?? 0);
+                        $deletedUsername = adminDeleteUser($targetId, (int) $sessionUser['id']);
+                        adminLog((int) $sessionUser['id'], 'eliminar', 'user', $targetId, ['username'=>$deletedUsername]);
+                        $adminSuccess = 'Usuario eliminado permanentemente.';
                     } elseif ($action === 'upload_document') {
                         $title = trim(is_string($_POST['title'] ?? null) ? $_POST['title'] : '');
                         $description = trim(is_string($_POST['description'] ?? null) ? $_POST['description'] : '');

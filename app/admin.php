@@ -126,6 +126,40 @@ function adminResetPassword(int $userId, string $password): void
     $statement->execute(['password_hash' => password_hash($password, PASSWORD_DEFAULT), 'id' => $userId]);
 }
 
+function adminDeleteUser(int $userId, int $adminId): string
+{
+    if ($userId <= 0) throw new InvalidArgumentException('El usuario no es válido.');
+    if ($userId === $adminId) throw new DomainException('No puedes eliminar tu propia cuenta.');
+
+    $pdo = database();
+    $statement = $pdo->prepare(
+        "SELECT u.username, u.status,
+                EXISTS(SELECT 1 FROM user_roles ur JOIN roles r ON r.id=ur.role_id WHERE ur.user_id=u.id AND r.name='administrador') AS is_admin,
+                (SELECT COUNT(*) FROM documents d WHERE d.uploaded_by=u.id) AS document_count,
+                (SELECT COUNT(*) FROM admin_activity_log a WHERE a.admin_user_id=u.id) AS activity_count
+         FROM users u WHERE u.id=:id LIMIT 1"
+    );
+    $statement->execute(['id' => $userId]);
+    $user = $statement->fetch();
+
+    if (!$user) throw new DomainException('El usuario ya no existe.');
+    if ((int) $user['document_count'] > 0 || (int) $user['activity_count'] > 0) {
+        throw new DomainException('Este usuario tiene documentos o actividad administrativa vinculada. Desactiva la cuenta para conservar el historial.');
+    }
+    if ((int) $user['is_admin'] === 1 && $user['status'] === 'activo') {
+        $activeAdmins = (int) $pdo->query(
+            "SELECT COUNT(DISTINCT ur.user_id) FROM user_roles ur JOIN roles r ON r.id=ur.role_id JOIN users u ON u.id=ur.user_id WHERE r.name='administrador' AND u.status='activo'"
+        )->fetchColumn();
+        if ($activeAdmins <= 1) throw new DomainException('Debe permanecer al menos un administrador activo.');
+    }
+
+    $delete = $pdo->prepare('DELETE FROM users WHERE id=:id');
+    $delete->execute(['id' => $userId]);
+    if ($delete->rowCount() !== 1) throw new RuntimeException('No fue posible eliminar el usuario.');
+
+    return (string) $user['username'];
+}
+
 function adminChangeOwnPassword(int $userId, string $password): void
 {
     if (mb_strlen($password, 'UTF-8') < 12) throw new InvalidArgumentException('La nueva contraseña debe tener al menos 12 caracteres.');

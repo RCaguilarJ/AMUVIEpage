@@ -2,6 +2,9 @@
 <header class="amuvie-site-header" id="inicio">
     <div class="amuvie-topbar<?= !empty($isMemberView) ? ' amuvie-topbar--private' : '' ?>" aria-label="<?= !empty($isMemberView) ? 'Sesión del asociado' : 'Información de contacto' ?>">
         <?php if (!empty($isMemberView) && $headerUser): ?>
+        <button class="member-menu-toggle" type="button" aria-label="Abrir navegación del portal" aria-expanded="false" aria-controls="member-navigation">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
         <div class="amuvie-private-welcome"><i class="fas fa-user-tie" aria-hidden="true"></i> Bienvenido de nuevo, <?= htmlspecialchars($headerUser['full_name'] ?: $headerUser['username'], ENT_QUOTES, 'UTF-8') ?></div>
         <form method="post" class="amuvie-private-logout">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
@@ -27,18 +30,22 @@
             <img class="amuvie-brand__logo" src="<?= htmlspecialchars(site_url('assets/images/logo-amuvie.png'), ENT_QUOTES, 'UTF-8') ?>" width="250" height="250" alt="AMUVIE A.C.">
         </a>
 
-        <nav class="amuvie-primary-nav" aria-label="Navegación principal">
+        <nav class="amuvie-primary-nav" id="amuvie-primary-menu" aria-label="Navegación principal">
             <ul class="amuvie-primary-nav__list">
                 <li class="amuvie-primary-nav__item--submenu">
-                    <a href="#" aria-haspopup="true">AMUVIE <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
-                    <ul class="amuvie-submenu">
+                    <button class="amuvie-submenu-trigger" type="button" aria-expanded="false" aria-controls="submenu-amuvie">
+                        <span>AMUVIE</span> <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <ul class="amuvie-submenu" id="submenu-amuvie">
                         <li><a href="<?= htmlspecialchars(site_url('quienes-somos/'), ENT_QUOTES, 'UTF-8') ?>">¿Quiénes somos?</a></li>
                         <li><a href="<?= htmlspecialchars(site_url('consejo-directivo/'), ENT_QUOTES, 'UTF-8') ?>">Consejo Directivo</a></li>
                     </ul>
                 </li>
                 <li class="amuvie-primary-nav__item--submenu">
-                    <a href="#" aria-haspopup="true">Nuestros servicios <i class="fas fa-chevron-down" aria-hidden="true"></i></a>
-                    <ul class="amuvie-submenu">
+                    <button class="amuvie-submenu-trigger" type="button" aria-expanded="false" aria-controls="submenu-servicios">
+                        <span>Nuestros servicios</span> <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <ul class="amuvie-submenu" id="submenu-servicios">
                         <li><a href="<?= htmlspecialchars(site_url('formatos-de-portada/'), ENT_QUOTES, 'UTF-8') ?>">Formatos de Portada</a></li>
                         <li><a href="<?= htmlspecialchars(site_url('capacitacion/'), ENT_QUOTES, 'UTF-8') ?>">Capacitación</a></li>
                         <li><a href="<?= htmlspecialchars(site_url('libro-calidad-energia-electrica/'), ENT_QUOTES, 'UTF-8') ?>">Libro Calidad de Energía Eléctrica</a></li>
@@ -48,8 +55,7 @@
                 <li class="amuvie-primary-nav__item--submenu">
                     <a
                         class="amuvie-submenu-trigger"
-                        href="#"
-                        aria-haspopup="true"
+                        href="#submenu-directorios"
                         aria-expanded="false"
                         aria-controls="submenu-directorios"
                     >
@@ -67,7 +73,6 @@
                     <a
                         class="amuvie-submenu-trigger"
                         href="<?= htmlspecialchars(site_url('comunicacion/'), ENT_QUOTES, 'UTF-8') ?>"
-                        aria-haspopup="true"
                         aria-expanded="false"
                         aria-controls="submenu-comunicacion"
                     >
@@ -87,7 +92,7 @@
             </ul>
         </nav>
 
-        <button class="amuvie-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <button class="amuvie-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="amuvie-primary-menu">
             <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
 
@@ -107,6 +112,12 @@
         <?php endif; ?>
     </div>
 </header>
+
+<?php if (empty($isMemberView)): ?>
+<button class="amuvie-menu-backdrop" type="button" aria-label="Cerrar menú" tabindex="-1"></button>
+<?php else: ?>
+<button class="member-menu-backdrop" type="button" aria-label="Cerrar navegación del portal" tabindex="-1"></button>
+<?php endif; ?>
 
 <?php if (empty($isMemberView)): ?>
 <aside class="partner-rail" aria-label="Patrocinadores">
